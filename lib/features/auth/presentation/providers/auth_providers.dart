@@ -5,6 +5,7 @@ import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/entities/app_user.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../../domain/entities/user_role.dart';
 
 // --- Infrastructure Providers ---
 
@@ -78,4 +79,8 @@ class AuthNotifier extends StateNotifier<AsyncValue<void>> {
 final authNotifierProvider =
     StateNotifierProvider<AuthNotifier, AsyncValue<void>>((ref) {
   return AuthNotifier(ref.watch(authRepositoryProvider));
+});
+final currentUserRoleProvider = Provider<UserRole>((ref) {
+  final user = ref.watch(authStateProvider).valueOrNull;
+  return user?.role ?? UserRole.unknown;
 });
