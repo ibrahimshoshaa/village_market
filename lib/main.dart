@@ -28,12 +28,9 @@ Future<void> main() async {
   );
 
   await Hive.initFlutter();
-  // TODO: register Hive adapters here once cart/local models are generated, e.g.:
-  // Hive.registerAdapter(CartItemModelAdapter());
-  // await Hive.openBox<CartItemModel>('cart');
+  Hive.registerAdapter(CartItemModelAdapter());
+  await Hive.openBox<CartItemModel>('cart');
 
-Hive.registerAdapter(CartItemModelAdapter());
-await Hive.openBox<CartItemModel>('cart');
   runApp(
     const ProviderScope(
       child: VillageMarketApp(),
