@@ -1,0 +1,213 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============ HELPER FUNCTIONS ============
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.role == role;
+    }
+
+    function isActiveUser() {
+      // Defense-in-depth: even if a claim is stale, block soft-banned accounts at the data layer too
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isActive == true;
+    }
+
+    // Vendor must own the specific shop referenced — checked via a get() on the shop doc
+    function isShopOwner(shopId) {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/shops/$(shopId)).data.ownerId == request.auth.uid;
+    }
+
+    function isParticipant(participantIds) {
+      return isSignedIn() && request.auth.uid in participantIds;
+    }
+
+    // Whitelist of fields a client is allowed to touch — prevents clients from writing
+    // server-only aggregate fields like avgRating, reviewCount, stockQuantity directly.
+    function onlyAffectsKeys(allowedKeys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(allowedKeys);
+    }
+
+    // ============ USERS ============
+
+    match /users/{userId} {
+      allow read: if isSignedIn(); // public-ish profile data (name, shop link) needed broadly for display
+      allow create: if isOwner(userId)
+                    && request.resource.data.uid == userId
+                    && request.resource.data.role == 'unknown'; // role escalation must go through admin/Cloud Function, never client-set on create
+      allow update: if isOwner(userId)
+                    && onlyAffectsKeys([
+                         'displayName', 'profileImageUrl', 'fcmTokens', 'isOnline',
+                         'lastSeenAt', 'location', 'addressBook', 'updatedAt'
+                       ]); // role, isActive, vendorProfile.isApproved etc. are NEVER client-writable
+      allow delete: if false; // soft-delete only, via isActive flag — never hard-delete user data
+    }
+
+    // ============ SHOPS ============
+
+    match /shops/{shopId} {
+      allow read: if true; // public catalog browsing — no auth required to browse
+      allow create: if hasRole('vendor') && isActiveUser()
+                    && request.resource.data.ownerId == request.auth.uid
+                    && request.resource.data.isApproved == false; // vendors cannot self-approve
+      allow update: if hasRole('vendor') && isShopOwner(shopId)
+                    && onlyAffectsKeys([
+                         'shopName', 'shopNameLower', 'description', 'logoUrl', 'coverImageUrl',
+                         'category', 'location', 'operatingHours', 'isManuallyOverrideClosed',
+                         'deliveryRadiusKm', 'minOrderAmount', 'baseDeliveryFee', 'updatedAt'
+                       ]); // isApproved, avgRating, reviewCount, productCount are Cloud-Function-only
+      allow update: if hasRole('admin')
+                    && onlyAffectsKeys(['isApproved', 'isActive', 'updatedAt']); // admin approval gate
+      allow delete: if false;
+
+      // --- products subcollection ---
+      match /products/{productId} {
+        allow read: if true;
+        allow create: if hasRole('vendor') && isShopOwner(shopId)
+                      && request.resource.data.shopId == shopId;
+        allow update: if hasRole('vendor') && isShopOwner(shopId)
+                      && onlyAffectsKeys([
+                           'name', 'nameLower', 'description', 'category', 'imageUrls',
+                           'price', 'discountPrice', 'unit', 'isAvailable', 'updatedAt'
+                         ]); // stockQuantity is ONLY mutated server-side (placeOrder Cloud Function)
+        allow delete: if hasRole('vendor') && isShopOwner(shopId);
+      }
+
+      // --- reviews subcollection ---
+      match /reviews/{reviewId} {
+        allow read: if true;
+        allow create: if isSignedIn() && isActiveUser()
+                      && request.resource.data.authorId == request.auth.uid
+                      && request.resource.data.rating is int
+                      && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+                      // must reference a real, delivered order belonging to this customer — prevents fake reviews
+                      && exists(/databases/$(database)/documents/orders/$(request.resource.data.relatedOrderId))
+                      && get(/databases/$(database)/documents/orders/$(request.resource.data.relatedOrderId)).data.customerId == request.auth.uid
+                      && get(/databases/$(database)/documents/orders/$(request.resource.data.relatedOrderId)).data.status == 'delivered';
+        allow update: if (
+                        // author can edit their own text/rating shortly after posting — optional, tighten if undesired
+                        isOwner(resource.data.authorId) && onlyAffectsKeys(['rating', 'comment'])
+                      ) || (
+                        // vendor can reply once
+                        hasRole('vendor') && isShopOwner(shopId) && onlyAffectsKeys(['vendorReply'])
+                      );
+        allow delete: if hasRole('admin'); // moderation only
+      }
+    }
+
+    // ============ CRAFTSMEN ============
+
+    match /craftsmen/{craftsmanId} {
+      allow read: if true;
+      allow create: if hasRole('vendor') && isActiveUser() // craftsmen are modeled as a vendor sub-type
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.isApproved == false;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid
+                    && onlyAffectsKeys([
+                         'fullName', 'bio', 'yearsOfExperience', 'portfolioImageUrls',
+                         'serviceArea', 'isAvailableNow', 'availabilitySchedule',
+                         'priceRangeLabel', 'updatedAt'
+                       ]);
+      allow update: if hasRole('admin') && onlyAffectsKeys(['isApproved', 'isActive', 'updatedAt']);
+      allow delete: if false;
+
+      match /reviews/{reviewId} {
+        allow read: if true;
+        allow create: if isSignedIn() && isActiveUser()
+                      && request.resource.data.authorId == request.auth.uid
+                      && request.resource.data.rating is int
+                      && request.resource.data.rating >= 1 && request.resource.data.rating <= 5;
+        allow update: if isOwner(resource.data.authorId) && onlyAffectsKeys(['rating', 'comment']);
+        allow delete: if hasRole('admin');
+      }
+    }
+
+    // ============ ORDERS ============
+    // NOTE: orders are primarily CREATED via the placeOrder Cloud Function (Phase 3.2/4),
+    // which runs with Admin SDK privileges and bypasses these rules entirely.
+    // These rules govern direct client READS and the narrow set of client-initiated status UPDATES.
+
+    match /orders/{orderId} {
+      allow read: if isSignedIn() && (
+                     resource.data.customerId == request.auth.uid ||
+                     resource.data.vendorId == request.auth.uid ||
+                     resource.data.driverId == request.auth.uid ||
+                     hasRole('admin')
+                   );
+
+      allow create: if false; // ALL order creation goes through the placeOrder callable function only
+
+      // Vendor: accept / reject / mark preparing
+      allow update: if hasRole('vendor') && resource.data.vendorId == request.auth.uid
+                    && resource.data.status == 'pending'
+                    && request.resource.data.status in ['accepted', 'cancelled']
+                    && onlyAffectsKeys(['status', 'statusHistory', 'cancellation', 'acceptedAt', 'updatedAt']);
+
+      allow update: if hasRole('vendor') && resource.data.vendorId == request.auth.uid
+                    && resource.data.status == 'accepted'
+                    && request.resource.data.status == 'preparing'
+                    && onlyAffectsKeys(['status', 'statusHistory', 'updatedAt']);
+
+      // Driver: self-assign to an unclaimed accepted order, then progress to in_transit / delivered
+      allow update: if hasRole('driver') && isActiveUser()
+                    && resource.data.driverId == null
+                    && resource.data.status == 'accepted'
+                    && request.resource.data.driverId == request.auth.uid
+                    && onlyAffectsKeys(['driverId', 'driverName', 'updatedAt']);
+
+      allow update: if hasRole('driver') && resource.data.driverId == request.auth.uid
+                    && resource.data.status in ['accepted', 'preparing']
+                    && request.resource.data.status == 'in_transit'
+                    && onlyAffectsKeys(['status', 'statusHistory', 'updatedAt']);
+
+      allow update: if hasRole('driver') && resource.data.driverId == request.auth.uid
+                    && resource.data.status == 'in_transit'
+                    && request.resource.data.status == 'delivered'
+                    && onlyAffectsKeys(['status', 'statusHistory', 'payment', 'deliveredAt', 'updatedAt']);
+
+      // Customer: cancel only while still pending (can't cancel after vendor has started preparing)
+      allow update: if isSignedIn() && resource.data.customerId == request.auth.uid
+                    && resource.data.status == 'pending'
+                    && request.resource.data.status == 'cancelled'
+                    && onlyAffectsKeys(['status', 'statusHistory', 'cancellation', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    // ============ CHATS ============
+
+    match /chats/{threadId} {
+      allow read: if isParticipant(resource.data.participantIds);
+      allow create: if isSignedIn()
+                    && isParticipant(request.resource.data.participantIds)
+                    && request.resource.data.participantIds.size() == 2;
+      allow update: if isParticipant(resource.data.participantIds)
+                    && onlyAffectsKeys(['lastMessage', 'unreadCount', 'updatedAt']);
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isParticipant(get(/databases/$(database)/documents/chats/$(threadId)).data.participantIds);
+        allow create: if isParticipant(get(/databases/$(database)/documents/chats/$(threadId)).data.participantIds)
+                      && request.resource.data.senderId == request.auth.uid;
+        allow update: if isParticipant(get(/databases/$(database)/documents/chats/$(threadId)).data.participantIds)
+                      && onlyAffectsKeys(['status']); // read-receipt updates only
+        allow delete: if false;
+      }
+    }
+
+    // ============ ADMIN-ONLY CATCH-ALL ============
+    // Anything not explicitly matched above defaults to fully denied (Firestore's default-deny posture) —
+    // no wildcard allow rule exists anywhere in this file, intentionally.
+  }
+}

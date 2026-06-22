@@ -1,0 +1,49 @@
+{
+  "@@locale": "ar",
+
+  "appName": "سوق القرية",
+  "@appName": {
+    "description": "App display name"
+  },
+
+  "homeTab": "الرئيسية",
+  "ordersTab": "طلباتي",
+  "cartTab": "السلة",
+  "profileTab": "حسابي",
+
+  "phoneEntryTitle": "أدخل رقم هاتفك",
+  "phoneEntryHint": "01XXXXXXXXX",
+  "sendOtpButton": "إرسال رمز التحقق",
+
+  "otpTitle": "أدخل رمز التحقق",
+  "otpSubtitle": "تم إرسال رمز التحقق إلى رقمك",
+  "verifyButton": "تحقق",
+  "resendCode": "إعادة إرسال الرمز",
+
+  "roleSelectionTitle": "اختر نوع الحساب",
+  "roleVillager": "زبون",
+  "roleVendor": "صاحب محل",
+  "roleDriver": "سائق توصيل",
+
+  "cartEmpty": "السلة فارغة",
+  "addToCart": "أضف إلى السلة",
+  "checkoutButton": "إتمام الطلب",
+  "orderTotal": "الإجمالي",
+  "deliveryFee": "رسوم التوصيل",
+  "subtotal": "المجموع الفرعي",
+
+  "orderStatusPending": "قيد الانتظار",
+  "orderStatusAccepted": "تم القبول",
+  "orderStatusPreparing": "جاري التجهيز",
+  "orderStatusInTransit": "في الطريق",
+  "orderStatusDelivered": "تم التوصيل",
+  "orderStatusCancelled": "ملغي",
+
+  "errorGeneric": "حدث خطأ ما، حاول مرة أخرى",
+  "errorNoInternet": "تأكد من اتصالك بالإنترنت وحاول مرة أخرى",
+  "offlineBanner": "أنت غير متصل بالإنترنت - سيتم المزامنة عند عودة الاتصال",
+
+  "retryButton": "إعادة المحاولة",
+  "cancelButton": "إلغاء",
+  "confirmButton": "تأكيد"
+}

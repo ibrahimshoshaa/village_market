@@ -1,0 +1,67 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*')
+             && request.resource.size < 5 * 1024 * 1024; // 5MB hard cap per file
+    }
+
+    // --- User profile photos: /profile_images/{uid}/avatar.jpg ---
+    match /profile_images/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn() && request.auth.uid == userId && isValidImage();
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- Shop logos & covers: /shops/{shopId}/branding/{fileName} ---
+    match /shops/{shopId}/branding/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn()
+                   && firestore.get(/databases/(default)/documents/shops/$(shopId)).data.ownerId == request.auth.uid
+                   && isValidImage();
+      allow delete: if isSignedIn()
+                   && firestore.get(/databases/(default)/documents/shops/$(shopId)).data.ownerId == request.auth.uid;
+    }
+
+    // --- Product images: /shops/{shopId}/products/{productId}/{fileName} ---
+    match /shops/{shopId}/products/{productId}/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn()
+                   && firestore.get(/databases/(default)/documents/shops/$(shopId)).data.ownerId == request.auth.uid
+                   && isValidImage();
+      allow delete: if isSignedIn()
+                   && firestore.get(/databases/(default)/documents/shops/$(shopId)).data.ownerId == request.auth.uid;
+    }
+
+    // --- Craftsman portfolio images: /craftsmen/{craftsmanId}/portfolio/{fileName} ---
+    match /craftsmen/{craftsmanId}/portfolio/{fileName} {
+      allow read: if true;
+      allow write: if isSignedIn()
+                   && firestore.get(/databases/(default)/documents/craftsmen/$(craftsmanId)).data.userId == request.auth.uid
+                   && isValidImage();
+      allow delete: if isSignedIn()
+                   && firestore.get(/databases/(default)/documents/craftsmen/$(craftsmanId)).data.userId == request.auth.uid;
+    }
+
+    // --- Chat image attachments: /chats/{threadId}/{fileName} ---
+    match /chats/{threadId}/{fileName} {
+      allow read: if isSignedIn()
+                  && request.auth.uid in firestore.get(/databases/(default)/documents/chats/$(threadId)).data.participantIds;
+      allow write: if isSignedIn()
+                   && request.auth.uid in firestore.get(/databases/(default)/documents/chats/$(threadId)).data.participantIds
+                   && isValidImage();
+      allow delete: if false; // chat attachments are immutable once sent
+    }
+
+    // Default deny — no path outside the above is writable or readable
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

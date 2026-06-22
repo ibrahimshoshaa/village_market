@@ -1,0 +1,21 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  plugins:
+    - custom_lint
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/l10n/app_localizations*.dart"
+  errors:
+    invalid_annotation_target: ignore # required: false-positive on @riverpod class fields
+
+linter:
+  rules:
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - avoid_print
+    - require_trailing_commas
+    - unawaited_futures
+    - prefer_single_quotes
+    - sort_child_properties_last

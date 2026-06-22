@@ -1,0 +1,78 @@
+# ============ Flutter / Dart ============
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.lock
+!pubspec.lock
+
+# Generated code (riverpod_generator, json_serializable, freezed)
+**/*.g.dart
+**/*.freezed.dart
+**/*.mocks.dart
+
+# Generated localization output
+lib/l10n/app_localizations*.dart
+
+# ============ IDE ============
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.history
+
+# ============ Android ============
+android/.gradle/
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/**/GeneratedPluginRegistrant.java
+android/key.properties
+
+# ============ iOS ============
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/.symlinks/
+ios/Runner.xcworkspace/xcshareddata/
+**/Flutter/App.framework
+**/Flutter/Flutter.framework
+**/Flutter/Generated.xcconfig
+**/Flutter/ephemeral
+**/Flutter/flutter_export_environment.sh
+
+# ============ CRITICAL SECRETS — NEVER COMMIT (see Phase 8 of blueprint) ============
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+android/app/upload-keystore.jks
+android/key.properties
+**/*.jks
+**/*.keystore
+**/*.p12
+lib/firebase_options.dart
+.env
+.env.*
+
+# ============ Firebase ============
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# ============ Cloud Functions (Node.js) ============
+functions/node_modules/
+functions/lib/
+functions/.env
+
+# ============ Misc ============
+*.log
+.DS_Store
+Thumbs.db
+coverage/

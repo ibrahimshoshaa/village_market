@@ -1,0 +1,46 @@
+{
+  "@@locale": "en",
+
+  "appName": "Village Market",
+
+  "homeTab": "Home",
+  "ordersTab": "My Orders",
+  "cartTab": "Cart",
+  "profileTab": "Profile",
+
+  "phoneEntryTitle": "Enter your phone number",
+  "phoneEntryHint": "01XXXXXXXXX",
+  "sendOtpButton": "Send verification code",
+
+  "otpTitle": "Enter verification code",
+  "otpSubtitle": "A code was sent to your number",
+  "verifyButton": "Verify",
+  "resendCode": "Resend code",
+
+  "roleSelectionTitle": "Choose account type",
+  "roleVillager": "Customer",
+  "roleVendor": "Shop owner",
+  "roleDriver": "Delivery driver",
+
+  "cartEmpty": "Your cart is empty",
+  "addToCart": "Add to cart",
+  "checkoutButton": "Checkout",
+  "orderTotal": "Total",
+  "deliveryFee": "Delivery fee",
+  "subtotal": "Subtotal",
+
+  "orderStatusPending": "Pending",
+  "orderStatusAccepted": "Accepted",
+  "orderStatusPreparing": "Preparing",
+  "orderStatusInTransit": "In transit",
+  "orderStatusDelivered": "Delivered",
+  "orderStatusCancelled": "Cancelled",
+
+  "errorGeneric": "Something went wrong, please try again",
+  "errorNoInternet": "Check your internet connection and try again",
+  "offlineBanner": "You're offline - changes will sync when connection is restored",
+
+  "retryButton": "Retry",
+  "cancelButton": "Cancel",
+  "confirmButton": "Confirm"
+}
