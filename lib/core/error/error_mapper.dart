@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'failures.dart';
 
-/// Translates Firebase-specific exceptions into domain-layer Failures, so
-/// nothing above the data layer needs to import firebase_core types.
-/// Referenced by RetryPolicy (Phase 5.3) to decide which Failures are
-/// safe to retry.
+/// Translates Firebase-specific exceptions into domain-layer Failures.
 abstract class ErrorMapper {
   static Failure fromFirestoreException(FirebaseException e) {
     return switch (e.code) {

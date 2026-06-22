@@ -2,16 +2,14 @@ import 'package:meta/meta.dart';
 
 import '../error/failures.dart';
 
-/// Lightweight Result type, avoiding a dependency on fpdart/dartz for a
-/// single sealed-class pattern. Repository methods return
-/// Result&lt;T, Failure&gt; instead of throwing, per Phase 1.1's Clean
-/// Architecture conventions.
+/// Lightweight Result type for repository methods.
+/// Returns Result<T, Failure> instead of throwing exceptions.
 @immutable
 sealed class Result<S, F> {
   const Result();
 
-  factory Result.success(S value) = Success<S, F>;
-  factory Result.failure(F failure) = Failed<S, F>;
+  const factory Result.success(S value) = Success<S, F>;
+  const factory Result.failure(F failure) = Failed<S, F>;
 
   bool get isSuccess => this is Success<S, F>;
   bool get isFailure => this is Failed<S, F>;
@@ -39,6 +37,4 @@ final class Failed<S, F> extends Result<S, F> {
   const Failed(this.failure);
 }
 
-/// Convenience alias used throughout repository interfaces, e.g.
-/// `Future<AppResult<AppUser>> getCurrentUser()`.
 typedef AppResult<T> = Result<T, Failure>;

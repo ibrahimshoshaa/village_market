@@ -56,7 +56,6 @@ android/key.properties
 **/*.jks
 **/*.keystore
 **/*.p12
-lib/firebase_options.dart
 .env
 .env.*
 

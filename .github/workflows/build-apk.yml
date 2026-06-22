@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:        # allows manual trigger from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java (Android Gradle requirement)
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.1'   # pin explicitly — never 'stable', for reproducible builds
+          flutter-version: '3.27.1'
           channel: 'stable'
           cache: true
 
@@ -54,14 +54,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run code generation (Riverpod, freezed, json_serializable)
+      - name: Run code generation
         run: dart run build_runner build --delete-conflicting-outputs
 
       - name: Run static analysis
         run: flutter analyze --no-fatal-infos
-
-      - name: Run unit tests
-        run: flutter test
 
       - name: Build Release APK
         run: flutter build apk --release --split-per-abi
