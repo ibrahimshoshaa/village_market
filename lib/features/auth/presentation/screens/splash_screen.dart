@@ -1,27 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Shown while auth state is still resolving. See AuthGuard in
-/// route_guards.dart (Phase 1.4) — this is the redirect target for
-/// `authState.isLoading`.
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: const Color(0xFF2E7D32), // أخضر ريفي
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.storefront_rounded, size: 72, color: Colors.white),
-            const SizedBox(height: 16),
-            Text(
-              'سوق القرية',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Colors.white),
+            // أيقونة السوق
+            Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: const Icon(
+                Icons.storefront_rounded,
+                size: 72,
+                color: Color(0xFF2E7D32),
+              ),
             ),
             const SizedBox(height: 32),
-            const CircularProgressIndicator(color: Colors.white),
+            // اسم التطبيق
+            const Text(
+              'سوق القرية',
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'كل احتياجاتك من القرية',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white.withOpacity(0.85),
+              ),
+            ),
+            const SizedBox(height: 64),
+            // Loading indicator
+            const SizedBox(
+              width: 40,
+              height: 40,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 3,
+              ),
+            ),
           ],
         ),
       ),

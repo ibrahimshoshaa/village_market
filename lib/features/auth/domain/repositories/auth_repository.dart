@@ -18,4 +18,7 @@ abstract class AuthRepository {
 
   /// Get current user from Firestore (null if not found).
   Future<AppUser?> getCurrentUser();
+
+  /// Update the role of the current user in Firestore.
+  Future<void> updateUserRole(String role);
 }

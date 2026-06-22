@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import '../../domain/entities/app_user.dart';
+import '../../domain/entities/user_role.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
 import '../models/app_user_model.dart';
+import '../../domain/entities/user_role.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _dataSource;
@@ -11,9 +14,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<AppUser?> get authStateChanges {
-    return _dataSource.authStateChanges.asyncMap((user) async {
-      if (user == null) return null;
-      final data = await _dataSource.getUserFromFirestore(user.uid);
+    return _dataSource.authStateChanges.asyncMap((firebaseUser) async {
+      if (firebaseUser == null) return null;
+      final data = await _dataSource.getUserFromFirestore(firebaseUser.uid);
       if (data == null) return null;
       return AppUserModel.fromMap(data);
     });
@@ -34,20 +37,28 @@ class AuthRepositoryImpl implements AuthRepository {
       otpCode: otpCode,
     );
 
-    final user = credential.user!;
-    final existingData = await _dataSource.getUserFromFirestore(user.uid);
+    final firebaseUser = credential.user!;
 
-    if (existingData == null) {
-      // مستخدم جديد — احفظه في Firestore
-      final newUser = AppUserModel.newUserMap(
-        uid: user.uid,
-        phoneNumber: user.phoneNumber ?? '',
-      );
-      await _dataSource.saveUserToFirestore(newUser);
-      return AppUserModel.fromMap(newUser..['uid'] = user.uid);
-    }
+    // لو المستخدم جديد، نحفظه في Firestore
+    final existing = await _dataSource.getUserFromFirestore(firebaseUser.uid);
+   if (existing == null) {
+  final newUserMap = AppUserModel.newUserMap(
+    uid: firebaseUser.uid,
+    phoneNumber: firebaseUser.phoneNumber ?? '',
+  );
+  await _dataSource.saveUserToFirestore(newUserMap);
+  // fromMap مش هيعرف يقرأ FieldValue — نرجع object مباشرة
+  return AppUserModel(
+    uid: firebaseUser.uid,
+    phoneNumber: firebaseUser.phoneNumber ?? '',
+    displayName: '',
+    role: UserRole.unknown,
+    isActive: true,
+    isPhoneVerified: true,
+  );
+}
 
-    return AppUserModel.fromMap(existingData);
+    return AppUserModel.fromMap(existing);
   }
 
   @override
@@ -57,11 +68,17 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<AppUser?> getCurrentUser() async {
-    final authUser = _dataSource.authStateChanges.first;
-    final user = await authUser;
-    if (user == null) return null;
-    final data = await _dataSource.getUserFromFirestore(user.uid);
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) return null;
+    final data = await _dataSource.getUserFromFirestore(firebaseUser.uid);
     if (data == null) return null;
     return AppUserModel.fromMap(data);
+  }
+
+  @override
+  Future<void> updateUserRole(String role) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) throw Exception('مفيش يوزر logged in');
+    await _dataSource.updateUserRole(firebaseUser.uid, role);
   }
 }
