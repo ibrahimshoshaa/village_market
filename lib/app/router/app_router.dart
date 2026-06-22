@@ -21,6 +21,7 @@ import '../../features/vendor_dashboard/presentation/screens/vendor_dashboard_sc
 import '../shells/driver_shell.dart';
 import '../shells/vendor_shell.dart';
 import '../shells/villager_shell.dart';
+import '../../features/orders/presentation/screens/checkout_screen.dart';
 import 'app_routes.dart';
 import 'route_guards.dart';
 
@@ -54,6 +55,10 @@ GoRouter appRouter(Ref ref) {
             path: AppRoutes.shopDetail,
             builder: (_, s) => ShopDetailScreen(shopId: s.pathParameters['shopId']!),
           ),
+GoRoute(
+  path: AppRoutes.checkout,
+  builder: (_, __) => const CheckoutScreen(),
+),
           GoRoute(path: AppRoutes.cart, builder: (_, __) => const CartScreen()),
           GoRoute(path: '/orders', builder: (_, __) => const OrderHistoryScreen()),
           GoRoute(

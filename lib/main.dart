@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'features/cart/data/models/cart_item_model.dart';
 
 import 'app/app.dart';
 import 'firebase_options.dart';
@@ -31,6 +32,8 @@ Future<void> main() async {
   // Hive.registerAdapter(CartItemModelAdapter());
   // await Hive.openBox<CartItemModel>('cart');
 
+Hive.registerAdapter(CartItemModelAdapter());
+await Hive.openBox<CartItemModel>('cart');
   runApp(
     const ProviderScope(
       child: VillageMarketApp(),
