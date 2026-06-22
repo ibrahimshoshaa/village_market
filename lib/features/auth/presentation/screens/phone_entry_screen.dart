@@ -90,8 +90,7 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen> {
               SizedBox(
                 height: 56,
                 child: ElevatedButton(
-                 onPressed: isLoading ? null : () async => await _sendOtp(),
-                  style: ElevatedButton.styleFrom(
+onPressed: isLoading ? null : _sendOtp,                  style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
