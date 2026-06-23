@@ -7,12 +7,11 @@ class SplashScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2E7D32), // أخضر ريفي
+      backgroundColor: const Color(0xFF2E7D32),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // أيقونة السوق
             Container(
               width: 120,
               height: 120,
@@ -21,7 +20,7 @@ class SplashScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(30),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -34,7 +33,6 @@ class SplashScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 32),
-            // اسم التطبيق
             const Text(
               'سوق القرية',
               style: TextStyle(
@@ -49,11 +47,10 @@ class SplashScreen extends ConsumerWidget {
               'كل احتياجاتك من القرية',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white.withOpacity(0.85),
+                color: Colors.white.withValues(alpha: 0.85),
               ),
             ),
             const SizedBox(height: 64),
-            // Loading indicator
             const SizedBox(
               width: 40,
               height: 40,

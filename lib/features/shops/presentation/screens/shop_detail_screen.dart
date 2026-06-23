@@ -43,7 +43,6 @@ class _ShopDetailBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        // Header
         SliverAppBar(
           expandedHeight: 200,
           pinned: true,
@@ -69,19 +68,19 @@ class _ShopDetailBody extends StatelessWidget {
                   ),
           ),
         ),
-
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Rating + Category
                 Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF2E7D32).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
@@ -105,8 +104,6 @@ class _ShopDetailBody extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-
-                // Description
                 if (shop.description.isNotEmpty) ...[
                   const Text(
                     'عن المحل',
@@ -119,22 +116,12 @@ class _ShopDetailBody extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     shop.description,
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      height: 1.5,
-                    ),
+                    style: TextStyle(color: Colors.grey[700], height: 1.5),
                   ),
                   const SizedBox(height: 16),
                 ],
-
-                // Address
-                _InfoTile(
-                  icon: Icons.location_on_rounded,
-                  text: shop.address,
-                ),
+                _InfoTile(icon: Icons.location_on_rounded, text: shop.address),
                 const SizedBox(height: 8),
-
-                // Working Hours
                 if (shop.workingHours.isNotEmpty) ...[
                   _InfoTile(
                     icon: Icons.access_time_rounded,
@@ -144,10 +131,7 @@ class _ShopDetailBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                 ],
-
                 const SizedBox(height: 24),
-
-                // زرار الاتصال
                 ElevatedButton.icon(
                   onPressed: _callShop,
                   icon: const Icon(Icons.phone_rounded),
@@ -168,10 +152,7 @@ class _ShopDetailBody extends StatelessWidget {
                     elevation: 0,
                   ),
                 ),
-
                 const SizedBox(height: 32),
-
-                // Products placeholder
                 const Text(
                   'المنتجات',
                   style: TextStyle(

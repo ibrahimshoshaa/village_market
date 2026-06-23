@@ -4,7 +4,7 @@ import '../../domain/entities/cart_item.dart';
 part 'cart_item_model.g.dart';
 
 @HiveType(typeId: 0)
-class CartItemModel {
+class CartItemModel extends HiveObject {
   @HiveField(0)
   final String productId;
 
@@ -36,23 +36,39 @@ class CartItemModel {
     required this.quantity,
   });
 
-  factory CartItemModel.fromEntity(CartItem item) => CartItemModel(
-        productId: item.productId,
-        shopId: item.shopId,
-        shopName: item.shopName,
-        productName: item.productName,
-        imageUrl: item.imageUrl,
-        unitPrice: item.unitPrice,
-        quantity: item.quantity,
-      );
+  factory CartItemModel.fromEntity(CartItem item) {
+    return CartItemModel(
+      productId: item.productId,
+      shopId: item.shopId,
+      shopName: item.shopName,
+      productName: item.productName,
+      imageUrl: item.imageUrl,
+      unitPrice: item.unitPrice,
+      quantity: item.quantity,
+    );
+  }
 
-  CartItem toEntity() => CartItem(
-        productId: productId,
-        shopId: shopId,
-        shopName: shopName,
-        productName: productName,
-        imageUrl: imageUrl,
-        unitPrice: unitPrice,
-        quantity: quantity,
-      );
+  CartItem toEntity() {
+    return CartItem(
+      productId: productId,
+      shopId: shopId,
+      shopName: shopName,
+      productName: productName,
+      imageUrl: imageUrl,
+      unitPrice: unitPrice,
+      quantity: quantity,
+    );
+  }
+
+  CartItemModel copyWith({int? quantity}) {
+    return CartItemModel(
+      productId: productId,
+      shopId: shopId,
+      shopName: shopName,
+      productName: productName,
+      imageUrl: imageUrl,
+      unitPrice: unitPrice,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }

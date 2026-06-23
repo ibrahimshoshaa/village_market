@@ -23,15 +23,18 @@ class CartScreen extends ConsumerWidget {
           if (cart.isNotEmpty)
             TextButton(
               onPressed: () => _confirmClear(context, ref),
-              child: const Text('مسح الكل',
-                  style: TextStyle(color: AppColors.error)),
+              child: const Text(
+                'مسح الكل',
+                style: TextStyle(color: AppColors.error),
+              ),
             ),
         ],
       ),
-      body: cart.isEmpty ? _buildEmpty(context) : _buildCartList(context, ref, cart.items),
-      bottomNavigationBar: cart.isNotEmpty
-          ? _buildCheckoutBar(context, ref)
-          : null,
+      body: cart.isEmpty
+          ? _buildEmpty(context)
+          : _buildCartList(context, ref, cart.items),
+      bottomNavigationBar:
+          cart.isNotEmpty ? _buildCheckoutBar(context, ref) : null,
     );
   }
 
@@ -40,8 +43,11 @@ class CartScreen extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.shopping_cart_outlined,
-              size: 80, color: AppColors.imagePlaceholderIcon),
+          const Icon(
+            Icons.shopping_cart_outlined,
+            size: 80,
+            color: AppColors.imagePlaceholderIcon,
+          ),
           const SizedBox(height: 16),
           Text('السلة فارغة',
               style: Theme.of(context).textTheme.headlineMedium),
@@ -59,7 +65,10 @@ class CartScreen extends ConsumerWidget {
   }
 
   Widget _buildCartList(
-      BuildContext context, WidgetRef ref, List<CartItem> items) {
+    BuildContext context,
+    WidgetRef ref,
+    List<CartItem> items,
+  ) {
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: items.length,
@@ -131,7 +140,10 @@ class CartScreen extends ConsumerWidget {
               ref.read(cartNotifierProvider.notifier).clear();
               Navigator.pop(context);
             },
-            child: const Text('مسح', style: TextStyle(color: AppColors.error)),
+            child: const Text(
+              'مسح',
+              style: TextStyle(color: AppColors.error),
+            ),
           ),
         ],
       ),
@@ -151,7 +163,6 @@ class _CartItemTile extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         children: [
-          // صورة المنتج
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: AppCachedImage(
@@ -161,16 +172,16 @@ class _CartItemTile extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 12),
-
-          // اسم + سعر
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(item.productName,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis),
+                Text(
+                  item.productName,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const SizedBox(height: 4),
                 Text(
                   formatEGP(item.unitPrice),
@@ -182,8 +193,6 @@ class _CartItemTile extends ConsumerWidget {
               ],
             ),
           ),
-
-          // أزرار الكمية
           _QuantityControl(
             quantity: item.quantity,
             onIncrement: () => notifier.increment(item.productId),

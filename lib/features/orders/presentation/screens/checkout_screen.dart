@@ -34,7 +34,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final cart = ref.watch(cartNotifierProvider);
     final checkoutState = ref.watch(checkoutControllerProvider);
 
-    // لما الطلب ينجح، روح لشاشة التتبع
     ref.listen(checkoutControllerProvider, (_, next) {
       if (next is AsyncData<String?> && next.value != null) {
         context.go(AppRoutes.orderTrackingPath(next.value!));
@@ -56,15 +55,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ===== نوع الاستلام =====
             _SectionTitle(title: 'طريقة الاستلام'),
             _DeliveryTypeSelector(
               selected: _deliveryType,
               onChanged: (v) => setState(() => _deliveryType = v),
             ),
             const SizedBox(height: 20),
-
-            // ===== العنوان (لو توصيل) =====
             if (_deliveryType == 'delivery') ...[
               _SectionTitle(title: 'عنوان التوصيل'),
               TextField(
@@ -77,16 +73,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               ),
               const SizedBox(height: 20),
             ],
-
-            // ===== طريقة الدفع =====
             _SectionTitle(title: 'طريقة الدفع'),
             _PaymentMethodSelector(
               selected: _paymentMethod,
               onChanged: (v) => setState(() => _paymentMethod = v),
             ),
             const SizedBox(height: 20),
-
-            // ===== ملاحظة =====
             _SectionTitle(title: 'ملاحظة للتاجر (اختياري)'),
             TextField(
               controller: _noteController,
@@ -95,15 +87,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               ),
             ),
             const SizedBox(height: 24),
-
-            // ===== ملخص السعر =====
             _PriceSummary(
               subtotal: cart.subtotal,
               deliveryFee: _deliveryType == 'delivery' ? 10.0 : 0,
             ),
             const SizedBox(height: 24),
-
-            // ===== زرار التأكيد =====
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -140,13 +128,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     final request = PlaceOrderRequest(
       shopId: cart.shopId!,
       items: cart.items
-          .map((i) => OrderItemRequest(
-                productId: i.productId,
-                quantity: i.quantity,
-              ))
+          .map(
+            (i) => OrderItemRequest(
+              productId: i.productId,
+              quantity: i.quantity,
+            ),
+          )
           .toList(),
       deliveryType: _deliveryType,
-      dropoffLat: 30.0444, // TODO: استخدم geolocator للموقع الحقيقي
+      dropoffLat: 30.0444,
       dropoffLng: 31.2357,
       dropoffAddressLabel: _addressController.text.trim().isEmpty
           ? 'استلام من المحل'
@@ -177,11 +167,13 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Text(title,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700)),
+      child: Text(
+        title,
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge
+            ?.copyWith(fontWeight: FontWeight.w700),
+      ),
     );
   }
 }
@@ -190,8 +182,10 @@ class _DeliveryTypeSelector extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onChanged;
 
-  const _DeliveryTypeSelector(
-      {required this.selected, required this.onChanged});
+  const _DeliveryTypeSelector({
+    required this.selected,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -250,19 +244,20 @@ class _TypeCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(icon,
-                color: selected ? AppColors.primary : AppColors.textSecondary),
+            Icon(
+              icon,
+              color: selected ? AppColors.primary : AppColors.textSecondary,
+            ),
             const SizedBox(height: 6),
-            Text(label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight:
-                      selected ? FontWeight.w600 : FontWeight.w400,
-                  color: selected
-                      ? AppColors.primary
-                      : AppColors.textSecondary,
-                ),
-                textAlign: TextAlign.center),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                color: selected ? AppColors.primary : AppColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
@@ -274,8 +269,10 @@ class _PaymentMethodSelector extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onChanged;
 
-  const _PaymentMethodSelector(
-      {required this.selected, required this.onChanged});
+  const _PaymentMethodSelector({
+    required this.selected,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -326,17 +323,19 @@ class _PaymentTile extends StatelessWidget {
       onChanged: disabled ? null : (v) => onChanged(v!),
       title: Row(
         children: [
-          Icon(icon,
-              size: 20,
-              color:
-                  disabled ? AppColors.textSecondary : AppColors.textPrimary),
+          Icon(
+            icon,
+            size: 20,
+            color: disabled ? AppColors.textSecondary : AppColors.textPrimary,
+          ),
           const SizedBox(width: 8),
-          Text(label,
-              style: TextStyle(
-                color: disabled
-                    ? AppColors.textSecondary
-                    : AppColors.textPrimary,
-              )),
+          Text(
+            label,
+            style: TextStyle(
+              color:
+                  disabled ? AppColors.textSecondary : AppColors.textPrimary,
+            ),
+          ),
         ],
       ),
       activeColor: AppColors.primary,
@@ -395,13 +394,15 @@ class _PriceRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label,
-            style: isTotal
-                ? Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.w700)
-                : Theme.of(context).textTheme.bodyMedium),
+        Text(
+          label,
+          style: isTotal
+              ? Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.w700)
+              : Theme.of(context).textTheme.bodyMedium,
+        ),
         Text(
           formatEGP(amount),
           style: isTotal

@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import '../error/failures.dart';
 
 /// Lightweight Result type for repository methods.
-/// Returns Result<T, Failure> instead of throwing exceptions.
+/// Returns `Result<T, Failure>` instead of throwing exceptions.
 @immutable
 sealed class Result<S, F> {
   const Result();

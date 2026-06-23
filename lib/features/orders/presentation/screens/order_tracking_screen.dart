@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/utils/currency_formatter.dart';
@@ -38,27 +37,24 @@ class _OrderTrackingBody extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          // ===== بانر الحالة الكبير =====
           _StatusBanner(status: order.status),
           const SizedBox(height: 20),
-
-          // ===== معلومات الطلب =====
           _InfoCard(
             children: [
               _InfoRow(label: 'رقم الطلب', value: order.orderNumber),
               _InfoRow(label: 'المحل', value: order.shopName),
-              _InfoRow(label: 'طريقة الاستلام',
-                  value: order.deliveryType == 'delivery'
-                      ? 'توصيل للباب'
-                      : 'استلام من المحل'),
+              _InfoRow(
+                label: 'طريقة الاستلام',
+                value: order.deliveryType == 'delivery'
+                    ? 'توصيل للباب'
+                    : 'استلام من المحل',
+              ),
               _InfoRow(label: 'العنوان', value: order.dropoffAddressLabel),
               if (order.customerNote.isNotEmpty)
                 _InfoRow(label: 'ملاحظة', value: order.customerNote),
             ],
           ),
           const SizedBox(height: 16),
-
-          // ===== المنتجات =====
           _InfoCard(
             title: 'المنتجات',
             children: [
@@ -81,8 +77,6 @@ class _OrderTrackingBody extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-
-          // ===== زرار إلغاء (لو الطلب لسه pending) =====
           if (order.status == OrderStatus.pending)
             _CancelButton(orderId: order.orderId),
         ],
@@ -142,11 +136,13 @@ class _InfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (title != null) ...[
-            Text(title!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.w700)),
+            Text(
+              title!,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.w700),
+            ),
             const Divider(),
           ],
           ...children,
@@ -174,14 +170,12 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(label, style: Theme.of(context).textTheme.bodyMedium),
           Flexible(
             child: Text(
               value,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight:
-                        bold ? FontWeight.w700 : FontWeight.w400,
+                    fontWeight: bold ? FontWeight.w700 : FontWeight.w400,
                     color: bold ? AppColors.primary : AppColors.textPrimary,
                   ),
               textAlign: TextAlign.end,
@@ -203,18 +197,24 @@ class _ItemRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Text('${item.quantity}×',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primary)),
+          Text(
+            '${item.quantity}×',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: AppColors.primary),
+          ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(item.productName,
-                style: Theme.of(context).textTheme.bodyMedium),
+            child: Text(
+              item.productName,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
-          Text(formatEGP(item.lineTotal),
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            formatEGP(item.lineTotal),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ],
       ),
     );
@@ -245,8 +245,7 @@ class _CancelButton extends ConsumerWidget {
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('إلغاء الطلب'),
-        content: const Text(
-            'هل تريد إلغاء الطلب؟ لن تتمكن من التراجع عن هذا.'),
+        content: const Text('هل تريد إلغاء الطلب؟ لن تتمكن من التراجع عن هذا.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -259,8 +258,10 @@ class _CancelButton extends ConsumerWidget {
                   .read(orderStatusControllerProvider.notifier)
                   .updateStatus(orderId, 'cancelled');
             },
-            child: const Text('إلغاء الطلب',
-                style: TextStyle(color: AppColors.error)),
+            child: const Text(
+              'إلغاء الطلب',
+              style: TextStyle(color: AppColors.error),
+            ),
           ),
         ],
       ),

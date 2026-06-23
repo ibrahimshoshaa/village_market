@@ -6,7 +6,8 @@ class RoleSelectionScreen extends ConsumerStatefulWidget {
   const RoleSelectionScreen({super.key});
 
   @override
-  ConsumerState<RoleSelectionScreen> createState() => _RoleSelectionScreenState();
+  ConsumerState<RoleSelectionScreen> createState() =>
+      _RoleSelectionScreenState();
 }
 
 class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
@@ -45,7 +46,6 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              // Header
               const Text(
                 'مرحباً بك في سوق القرية! 👋',
                 textAlign: TextAlign.center,
@@ -65,7 +65,6 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
                 ),
               ),
               const SizedBox(height: 48),
-              // Role Cards
               Expanded(
                 child: Column(
                   children: [
@@ -101,14 +100,12 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
                   ],
                 ),
               ),
-              // زرار التأكيد
               AnimatedOpacity(
                 opacity: _selectedRole != null ? 1.0 : 0.4,
                 duration: const Duration(milliseconds: 200),
                 child: ElevatedButton(
-                  onPressed: _selectedRole != null && !_isLoading
-                      ? _confirmRole
-                      : null,
+                  onPressed:
+                      _selectedRole != null && !_isLoading ? _confirmRole : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2E7D32),
                     foregroundColor: Colors.white,
@@ -172,7 +169,9 @@ class _RoleCard extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.08) : Colors.white,
+          color: isSelected
+              ? color.withValues(alpha: 0.08)
+              : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected ? color : Colors.grey.shade200,
@@ -181,17 +180,17 @@ class _RoleCard extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: color.withOpacity(0.15),
+                    color: color.withValues(alpha: 0.15),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
-                  )
+                  ),
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ],
         ),
         child: Row(
@@ -200,7 +199,7 @@ class _RoleCard extends StatelessWidget {
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(icon, color: color, size: 32),
