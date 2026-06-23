@@ -12,6 +12,7 @@ abstract class FirestoreCollections {
 
   static String shopProducts(String shopId) => '$shops/$shopId/$products';
   static String shopReviews(String shopId) => '$shops/$shopId/$reviews';
-  static String craftsmanReviews(String craftsmanId) => '$craftsmen/$craftsmanId/$reviews';
+  static String craftsmanReviews(String craftsmanId) =>
+      '$craftsmen/$craftsmanId/$reviews';
   static String chatMessages(String threadId) => '$chats/$threadId/$messages';
 }

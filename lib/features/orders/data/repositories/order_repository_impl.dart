@@ -71,10 +71,7 @@ class OrderRepositoryImpl implements OrderRepository {
       query = query.where('status', isEqualTo: statusFilter);
     }
 
-    return query
-        .limit(50)
-        .snapshots()
-        .map(
+    return query.limit(50).snapshots().map(
           (snap) => snap.docs.map(AppOrderModel.fromFirestore).toList(),
         );
   }
@@ -105,10 +102,8 @@ class OrderRepositoryImpl implements OrderRepository {
         },
       ]),
       'updatedAt': FieldValue.serverTimestamp(),
-      if (newStatus == 'delivered')
-        'deliveredAt': FieldValue.serverTimestamp(),
-      if (newStatus == 'accepted')
-        'acceptedAt': FieldValue.serverTimestamp(),
+      if (newStatus == 'delivered') 'deliveredAt': FieldValue.serverTimestamp(),
+      if (newStatus == 'accepted') 'acceptedAt': FieldValue.serverTimestamp(),
     });
   }
 }

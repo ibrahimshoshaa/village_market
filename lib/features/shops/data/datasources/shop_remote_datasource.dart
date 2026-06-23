@@ -44,9 +44,7 @@ class ShopRemoteDataSource {
         .where('isActive', isEqualTo: true)
         .where('isApproved', isEqualTo: true)
         .orderBy('name')
-        .startAt([query])
-        .endAt(['$query\uf8ff'])
-        .get();
+        .startAt([query]).endAt(['$query\uf8ff']).get();
 
     return snapshot.docs
         .map((doc) => ShopModel.fromMap(doc.data(), doc.id))

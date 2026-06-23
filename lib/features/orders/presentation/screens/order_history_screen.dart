@@ -21,9 +21,8 @@ class OrderHistoryScreen extends ConsumerWidget {
       body: ordersAsync.when(
         loading: () => const LoadingIndicator(),
         error: (e, _) => Center(child: Text('خطأ: $e')),
-        data: (orders) => orders.isEmpty
-            ? _buildEmpty(context)
-            : _buildList(context, orders),
+        data: (orders) =>
+            orders.isEmpty ? _buildEmpty(context) : _buildList(context, orders),
       ),
     );
   }

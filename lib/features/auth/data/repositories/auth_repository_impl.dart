@@ -40,22 +40,22 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // لو المستخدم جديد، نحفظه في Firestore
     final existing = await _dataSource.getUserFromFirestore(firebaseUser.uid);
-   if (existing == null) {
-  final newUserMap = AppUserModel.newUserMap(
-    uid: firebaseUser.uid,
-    phoneNumber: firebaseUser.phoneNumber ?? '',
-  );
-  await _dataSource.saveUserToFirestore(newUserMap);
-  // fromMap مش هيعرف يقرأ FieldValue — نرجع object مباشرة
-  return AppUserModel(
-    uid: firebaseUser.uid,
-    phoneNumber: firebaseUser.phoneNumber ?? '',
-    displayName: '',
-    role: UserRole.unknown,
-    isActive: true,
-    isPhoneVerified: true,
-  );
-}
+    if (existing == null) {
+      final newUserMap = AppUserModel.newUserMap(
+        uid: firebaseUser.uid,
+        phoneNumber: firebaseUser.phoneNumber ?? '',
+      );
+      await _dataSource.saveUserToFirestore(newUserMap);
+      // fromMap مش هيعرف يقرأ FieldValue — نرجع object مباشرة
+      return AppUserModel(
+        uid: firebaseUser.uid,
+        phoneNumber: firebaseUser.phoneNumber ?? '',
+        displayName: '',
+        role: UserRole.unknown,
+        isActive: true,
+        isPhoneVerified: true,
+      );
+    }
 
     return AppUserModel.fromMap(existing);
   }

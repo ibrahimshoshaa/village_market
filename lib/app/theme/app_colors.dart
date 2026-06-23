@@ -7,7 +7,8 @@ abstract class AppColors {
   // --- Brand ---
   static const primary = Color(0xFF1B7A43); // village green
   static const primaryDark = Color(0xFF125C30);
-  static const secondary = Color(0xFFE8A33D); // warm accent (market/harvest tone)
+  static const secondary =
+      Color(0xFFE8A33D); // warm accent (market/harvest tone)
 
   // --- Status colors (used for large order-status banners, Phase 7.1) ---
   static const statusPending = Color(0xFF9E9E9E);

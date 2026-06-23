@@ -55,14 +55,14 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _SectionTitle(title: 'طريقة الاستلام'),
+            const _SectionTitle(title: 'طريقة الاستلام'),
             _DeliveryTypeSelector(
               selected: _deliveryType,
               onChanged: (v) => setState(() => _deliveryType = v),
             ),
             const SizedBox(height: 20),
             if (_deliveryType == 'delivery') ...[
-              _SectionTitle(title: 'عنوان التوصيل'),
+              const _SectionTitle(title: 'عنوان التوصيل'),
               TextField(
                 controller: _addressController,
                 decoration: const InputDecoration(
@@ -73,13 +73,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               ),
               const SizedBox(height: 20),
             ],
-            _SectionTitle(title: 'طريقة الدفع'),
+            const _SectionTitle(title: 'طريقة الدفع'),
             _PaymentMethodSelector(
               selected: _paymentMethod,
               onChanged: (v) => setState(() => _paymentMethod = v),
             ),
             const SizedBox(height: 20),
-            _SectionTitle(title: 'ملاحظة للتاجر (اختياري)'),
+            const _SectionTitle(title: 'ملاحظة للتاجر (اختياري)'),
             TextField(
               controller: _noteController,
               decoration: const InputDecoration(
@@ -332,8 +332,7 @@ class _PaymentTile extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color:
-                  disabled ? AppColors.textSecondary : AppColors.textPrimary,
+              color: disabled ? AppColors.textSecondary : AppColors.textPrimary,
             ),
           ),
         ],

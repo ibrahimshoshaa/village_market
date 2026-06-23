@@ -104,8 +104,9 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
                 opacity: _selectedRole != null ? 1.0 : 0.4,
                 duration: const Duration(milliseconds: 200),
                 child: ElevatedButton(
-                  onPressed:
-                      _selectedRole != null && !_isLoading ? _confirmRole : null,
+                  onPressed: _selectedRole != null && !_isLoading
+                      ? _confirmRole
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF2E7D32),
                     foregroundColor: Colors.white,
@@ -169,9 +170,7 @@ class _RoleCard extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: isSelected
-              ? color.withValues(alpha: 0.08)
-              : Colors.white,
+          color: isSelected ? color.withValues(alpha: 0.08) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected ? color : Colors.grey.shade200,

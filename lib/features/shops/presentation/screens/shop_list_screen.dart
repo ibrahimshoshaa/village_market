@@ -28,7 +28,7 @@ class _ShopListScreenState extends ConsumerState<ShopListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final shopsAsync = ref.watch(shopsStreamProvider);
+    final shopsAsync = ref.watch(shopsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,8 +64,7 @@ class _ShopListScreenState extends ConsumerState<ShopListScreen> {
             children: [
               _CategoryFilter(
                 selected: _selectedCategory,
-                onSelected: (c) =>
-                    setState(() => _selectedCategory = c),
+                onSelected: (c) => setState(() => _selectedCategory = c),
               ),
               Expanded(
                 child: filtered.isEmpty
@@ -195,7 +194,7 @@ class _ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(AppRoutes.shopDetailPath(shop.shopId)),
+      onTap: () => context.push(AppRoutes.shopDetailPath(shop.id)),
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
@@ -269,19 +268,15 @@ class _ShopCard extends StatelessWidget {
                           height: 8,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: shop.isOpen
-                                ? Colors.green
-                                : Colors.grey,
+                            color: shop.isActive ? Colors.green : Colors.grey,
                           ),
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          shop.isOpen ? 'مفتوح' : 'مغلق',
+                          shop.isActive ? 'مفتوح' : 'مغلق',
                           style: TextStyle(
                             fontSize: 11,
-                            color: shop.isOpen
-                                ? Colors.green
-                                : Colors.grey,
+                            color: shop.isActive ? Colors.green : Colors.grey,
                           ),
                         ),
                       ],

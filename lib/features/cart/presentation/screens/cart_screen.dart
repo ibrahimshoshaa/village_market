@@ -50,10 +50,10 @@ class CartScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text('السلة فارغة',
-              style: Theme.of(context).textTheme.headlineMedium),
+              style: Theme.of(context).textTheme.headlineMedium,),
           const SizedBox(height: 8),
           Text('أضف منتجات من المحلات',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => context.go(AppRoutes.home),
@@ -99,8 +99,7 @@ class CartScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('المجموع',
-                    style: Theme.of(context).textTheme.bodyLarge),
+                Text('المجموع', style: Theme.of(context).textTheme.bodyLarge),
                 Text(
                   formatEGP(cart.subtotal),
                   style: Theme.of(context)

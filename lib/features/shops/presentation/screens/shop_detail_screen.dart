@@ -95,7 +95,7 @@ class _ShopDetailBody extends StatelessWidget {
                     ),
                     const SizedBox(width: 12),
                     const Icon(Icons.star_rounded,
-                        color: Colors.amber, size: 18),
+                        color: Colors.amber, size: 18,),
                     const SizedBox(width: 4),
                     Text(
                       '${shop.rating.toStringAsFixed(1)} (${shop.reviewCount} تقييم)',

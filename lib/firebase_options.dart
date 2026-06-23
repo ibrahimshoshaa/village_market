@@ -17,7 +17,8 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError('iOS not configured yet — run flutterfire configure.');
+        throw UnsupportedError(
+            'iOS not configured yet — run flutterfire configure.',);
       default:
         throw UnsupportedError('Unsupported platform.');
     }

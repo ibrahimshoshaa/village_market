@@ -26,7 +26,7 @@ abstract class AppRoutes {
   // --- Admin ---
   static const adminHome = '/admin/home';
 
-static const checkout = '/checkout';
+  static const checkout = '/checkout';
 
   static String shopDetailPath(String shopId) => '/shop/$shopId';
   static String orderTrackingPath(String orderId) => '/order/$orderId';

@@ -23,7 +23,8 @@ final shopsProvider = FutureProvider<List<Shop>>((ref) async {
 });
 
 // --- Shop By ID ---
-final shopByIdProvider = FutureProvider.family<Shop?, String>((ref, shopId) async {
+final shopByIdProvider =
+    FutureProvider.family<Shop?, String>((ref, shopId) async {
   return ref.read(shopRepositoryProvider).getShopById(shopId);
 });
 

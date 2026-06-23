@@ -39,10 +39,14 @@ class VillagerShell extends StatelessWidget {
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.storefront_outlined), label: 'الرئيسية'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'السلة'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_outlined), label: 'طلباتي'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'حسابي'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.storefront_outlined), label: 'الرئيسية',),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart_outlined), label: 'السلة',),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt_long_outlined), label: 'طلباتي',),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: 'حسابي',),
         ],
       ),
     );
