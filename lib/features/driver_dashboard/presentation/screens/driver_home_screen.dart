@@ -62,7 +62,7 @@ class _DriverHomeScreenState extends ConsumerState<DriverHomeScreen>
                 ),
                 Switch(
                   value: _isAvailable,
-                  activeThumbColor: AppColors.statusDelivered,
+                  activeColor: AppColors.statusDelivered,
                   onChanged: (val) {
                     setState(() => _isAvailable = val);
                     ref
