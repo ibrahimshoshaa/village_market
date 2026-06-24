@@ -62,7 +62,7 @@ class _DriverHomeScreenState extends ConsumerState<DriverHomeScreen>
                 ),
                 Switch(
                   value: _isAvailable,
-                  activeColor: AppColors.statusDelivered,
+                  activeThumbColor: AppColors.statusDelivered,
                   onChanged: (val) {
                     setState(() => _isAvailable = val);
                     ref
@@ -111,8 +111,8 @@ class _AvailableDeliveriesTab extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.delivery_dining_outlined,
-              size: 72, color: AppColors.imagePlaceholderIcon),
+          const Icon(Icons.delivery_dining_outlined,
+              size: 72, color: AppColors.imagePlaceholderIcon,),
           const SizedBox(height: 16),
           Text(msg, style: Theme.of(context).textTheme.bodyLarge),
         ],
@@ -149,9 +149,9 @@ class _AvailableOrderCard extends ConsumerWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w700)),
+                      ?.copyWith(fontWeight: FontWeight.w700),),
               Text(order.shopName,
-                  style: Theme.of(context).textTheme.bodyMedium),
+                  style: Theme.of(context).textTheme.bodyMedium,),
             ],
           ),
           const SizedBox(height: 8),
@@ -160,11 +160,11 @@ class _AvailableOrderCard extends ConsumerWidget {
           Row(
             children: [
               const Icon(Icons.location_on_outlined,
-                  size: 16, color: AppColors.primary),
+                  size: 16, color: AppColors.primary,),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(order.dropoffAddressLabel,
-                    style: Theme.of(context).textTheme.bodyMedium),
+                    style: Theme.of(context).textTheme.bodyMedium,),
               ),
             ],
           ),
@@ -175,12 +175,12 @@ class _AvailableOrderCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('إجمالي الطلب: ${formatEGP(order.pricing.totalAmount)}',
-                  style: Theme.of(context).textTheme.bodyMedium),
+                  style: Theme.of(context).textTheme.bodyMedium,),
               Text('توصيل: ${formatEGP(order.pricing.deliveryFee)}',
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
-                      ?.copyWith(color: AppColors.primary)),
+                      ?.copyWith(color: AppColors.primary),),
             ],
           ),
           const SizedBox(height: 12),
@@ -197,7 +197,7 @@ class _AvailableOrderCard extends ConsumerWidget {
                       height: 20,
                       width: 20,
                       child: CircularProgressIndicator(
-                          color: Colors.white, strokeWidth: 2),
+                          color: Colors.white, strokeWidth: 2,),
                     )
                   : const Text('قبول التوصيل'),
             ),
@@ -220,7 +220,7 @@ class _MyDeliveriesTab extends ConsumerWidget {
       data: (orders) => orders.isEmpty
           ? Center(
               child: Text('مفيش توصيلات نشطة',
-                  style: Theme.of(context).textTheme.bodyLarge),
+                  style: Theme.of(context).textTheme.bodyLarge,),
             )
           : ListView.separated(
               padding: const EdgeInsets.all(16),
@@ -272,12 +272,12 @@ class _ActiveDeliveryCard extends ConsumerWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w700)),
+                  ?.copyWith(fontWeight: FontWeight.w700),),
           const SizedBox(height: 4),
           Text('من: ${order.shopName}',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
           Text('إلى: ${order.dropoffAddressLabel}',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
           const SizedBox(height: 8),
 
           // اتصال بالزبون

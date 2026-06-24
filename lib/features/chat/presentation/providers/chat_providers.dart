@@ -20,7 +20,7 @@ ChatThread _threadFromDoc(DocumentSnapshot doc) {
               avatarUrl: v['avatarUrl'],
               role: v['role'] ?? '',
             ),
-          ));
+          ),);
 
   final lastMsg = d['lastMessage'] as Map<String, dynamic>?;
   ChatMessage? last;

@@ -116,11 +116,11 @@ class _PendingOrdersTab extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.inbox_outlined,
-                      size: 72, color: AppColors.imagePlaceholderIcon),
+                  const Icon(Icons.inbox_outlined,
+                      size: 72, color: AppColors.imagePlaceholderIcon,),
                   const SizedBox(height: 16),
                   Text('مفيش طلبات جديدة دلوقتي',
-                      style: Theme.of(context).textTheme.bodyLarge),
+                      style: Theme.of(context).textTheme.bodyLarge,),
                 ],
               ),
             )
@@ -178,9 +178,9 @@ class _PendingOrderCard extends ConsumerWidget {
 
           // الزبون
           Text('الزبون: ${order.customerName}',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
           Text('العنوان: ${order.dropoffAddressLabel}',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
           const SizedBox(height: 8),
 
           // المنتجات
@@ -190,7 +190,7 @@ class _PendingOrderCard extends ConsumerWidget {
                   '• ${item.quantity}× ${item.productName} — ${formatEGP(item.lineTotal)}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              )),
+              ),),
           const Divider(height: 16),
 
           // الإجمالي
@@ -201,7 +201,7 @@ class _PendingOrderCard extends ConsumerWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w700)),
+                      ?.copyWith(fontWeight: FontWeight.w700),),
               Text(
                 formatEGP(order.pricing.totalAmount),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -218,7 +218,7 @@ class _PendingOrderCard extends ConsumerWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
-                    ?.copyWith(fontStyle: FontStyle.italic)),
+                    ?.copyWith(fontStyle: FontStyle.italic),),
           ],
           const SizedBox(height: 12),
 
@@ -249,7 +249,7 @@ class _PendingOrderCard extends ConsumerWidget {
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
-                              color: Colors.white, strokeWidth: 2),
+                              color: Colors.white, strokeWidth: 2,),
                         )
                       : const Text('قبول الطلب'),
                 ),
@@ -319,7 +319,7 @@ class _AllOrdersTab extends ConsumerWidget {
       data: (orders) => orders.isEmpty
           ? Center(
               child: Text('مفيش طلبات',
-                  style: Theme.of(context).textTheme.bodyLarge),
+                  style: Theme.of(context).textTheme.bodyLarge,),
             )
           : ListView.separated(
               padding: const EdgeInsets.all(16),
@@ -345,7 +345,7 @@ class _OrderSummaryTile extends StatelessWidget {
       ),
       tileColor: AppColors.surface,
       title: Text(order.orderNumber,
-          style: const TextStyle(fontWeight: FontWeight.w700)),
+          style: const TextStyle(fontWeight: FontWeight.w700),),
       subtitle: Text(order.customerName),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -355,7 +355,7 @@ class _OrderSummaryTile extends StatelessWidget {
               style: const TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w700,
-              )),
+              ),),
           const SizedBox(height: 4),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

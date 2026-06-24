@@ -70,7 +70,7 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 28),
 
           // ===== قسم الحساب =====
-          _SectionHeader(title: 'الحساب'),
+          const _SectionHeader(title: 'الحساب'),
           _ProfileTile(
             icon: Icons.person_outline,
             label: 'تعديل الاسم',
@@ -90,7 +90,7 @@ class ProfileScreen extends ConsumerWidget {
           // ===== قسم خاص بالتاجر =====
           if (user.role == UserRole.vendor) ...[
             const SizedBox(height: 8),
-            _SectionHeader(title: 'إدارة المحل'),
+            const _SectionHeader(title: 'إدارة المحل'),
             _ProfileTile(
               icon: Icons.dashboard_outlined,
               label: 'لوحة تحكم التاجر',
@@ -106,7 +106,7 @@ class ProfileScreen extends ConsumerWidget {
           // ===== قسم خاص بالسائق =====
           if (user.role == UserRole.driver) ...[
             const SizedBox(height: 8),
-            _SectionHeader(title: 'التوصيل'),
+            const _SectionHeader(title: 'التوصيل'),
             _ProfileTile(
               icon: Icons.delivery_dining_outlined,
               label: 'لوحة السائق',
@@ -116,7 +116,7 @@ class ProfileScreen extends ConsumerWidget {
 
           // ===== قسم الإعدادات =====
           const SizedBox(height: 8),
-          _SectionHeader(title: 'إعدادات'),
+          const _SectionHeader(title: 'إعدادات'),
           _ProfileTile(
             icon: Icons.info_outline,
             label: 'عن التطبيق',
@@ -153,7 +153,7 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   void _showEditNameSheet(
-      BuildContext context, WidgetRef ref, String currentName) {
+      BuildContext context, WidgetRef ref, String currentName,) {
     final controller = TextEditingController(text: currentName);
     showModalBottomSheet(
       context: context,
@@ -169,7 +169,7 @@ class ProfileScreen extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('تعديل الاسم',
-                style: Theme.of(context).textTheme.headlineMedium),
+                style: Theme.of(context).textTheme.headlineMedium,),
             const SizedBox(height: 16),
             TextField(
               controller: controller,

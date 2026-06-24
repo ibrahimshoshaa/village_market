@@ -9,7 +9,7 @@ sealed class Failure {
 
 class NetworkFailure extends Failure {
   const NetworkFailure(
-      [super.message = 'تأكد من اتصالك بالإنترنت وحاول مرة أخرى']);
+      [super.message = 'تأكد من اتصالك بالإنترنت وحاول مرة أخرى',]);
 }
 
 class AuthFailure extends Failure {
@@ -18,7 +18,7 @@ class AuthFailure extends Failure {
 
 class PermissionFailure extends Failure {
   const PermissionFailure(
-      [super.message = 'ليس لديك صلاحية للقيام بهذا الإجراء']);
+      [super.message = 'ليس لديك صلاحية للقيام بهذا الإجراء',]);
 }
 
 class NotFoundFailure extends Failure {

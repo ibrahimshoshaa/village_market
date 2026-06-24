@@ -19,8 +19,8 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.wifi_off_rounded,
-                size: 64, color: AppColors.textSecondary),
+            const Icon(Icons.wifi_off_rounded,
+                size: 64, color: AppColors.textSecondary,),
             const SizedBox(height: 16),
             Text(
               message ?? 'حدث خطأ ما',

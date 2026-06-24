@@ -24,7 +24,7 @@ class CartScreen extends ConsumerWidget {
             TextButton(
               onPressed: () => _confirmClear(context, ref),
               child: const Text('مسح الكل',
-                  style: TextStyle(color: AppColors.error)),
+                  style: TextStyle(color: AppColors.error),),
             ),
         ],
       ),
@@ -41,14 +41,14 @@ class CartScreen extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.shopping_cart_outlined,
-              size: 80, color: AppColors.imagePlaceholderIcon),
+          const Icon(Icons.shopping_cart_outlined,
+              size: 80, color: AppColors.imagePlaceholderIcon,),
           const SizedBox(height: 16),
           Text('السلة فارغة',
-              style: Theme.of(context).textTheme.headlineMedium),
+              style: Theme.of(context).textTheme.headlineMedium,),
           const SizedBox(height: 8),
           Text('أضف منتجات من المحلات',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () => context.go(AppRoutes.home),
@@ -60,7 +60,7 @@ class CartScreen extends ConsumerWidget {
   }
 
   Widget _buildCartList(
-      BuildContext context, WidgetRef ref, List<CartItem> items) {
+      BuildContext context, WidgetRef ref, List<CartItem> items,) {
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: items.length,
@@ -170,7 +170,7 @@ class _CartItemTile extends ConsumerWidget {
                 Text(item.productName,
                     style: Theme.of(context).textTheme.bodyLarge,
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis),
+                    overflow: TextOverflow.ellipsis,),
                 const SizedBox(height: 4),
                 Text(
                   formatEGP(item.unitPrice),

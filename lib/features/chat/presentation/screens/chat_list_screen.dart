@@ -37,14 +37,14 @@ class ChatListScreen extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.chat_bubble_outline,
-              size: 72, color: AppColors.imagePlaceholderIcon),
+          const Icon(Icons.chat_bubble_outline,
+              size: 72, color: AppColors.imagePlaceholderIcon,),
           const SizedBox(height: 16),
           Text('مفيش محادثات لحد دلوقتي',
-              style: Theme.of(context).textTheme.bodyLarge),
+              style: Theme.of(context).textTheme.bodyLarge,),
           const SizedBox(height: 8),
           Text('تقدر تتواصل مع التجار من صفحة المحل',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
         ],
       ),
     );

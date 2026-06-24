@@ -32,14 +32,14 @@ class OrderHistoryScreen extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.receipt_long_outlined,
-              size: 80, color: AppColors.imagePlaceholderIcon),
+          const Icon(Icons.receipt_long_outlined,
+              size: 80, color: AppColors.imagePlaceholderIcon,),
           const SizedBox(height: 16),
           Text('مفيش طلبات لحد دلوقتي',
-              style: Theme.of(context).textTheme.headlineMedium),
+              style: Theme.of(context).textTheme.headlineMedium,),
           const SizedBox(height: 8),
           Text('اطلب من أقرب محل',
-              style: Theme.of(context).textTheme.bodyMedium),
+              style: Theme.of(context).textTheme.bodyMedium,),
         ],
       ),
     );
@@ -81,10 +81,10 @@ class _OrderCard extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w700)),
+                        ?.copyWith(fontWeight: FontWeight.w700),),
                 _StatusChip(
                     status: order.status.arabicLabel,
-                    color: order.status.color),
+                    color: order.status.color,),
               ],
             ),
             const SizedBox(height: 8),
@@ -98,11 +98,11 @@ class _OrderCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('${order.items.length} منتج',
-                    style: Theme.of(context).textTheme.bodyMedium),
+                    style: Theme.of(context).textTheme.bodyMedium,),
                 Text(
                   formatEGP(order.pricing.totalAmount),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColors.primary, fontWeight: FontWeight.w700),
+                      color: AppColors.primary, fontWeight: FontWeight.w700,),
                 ),
               ],
             ),

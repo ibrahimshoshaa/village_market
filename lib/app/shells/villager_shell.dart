@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/theme/app_colors.dart';
 import '../../app/router/app_routes.dart';
 import '../../core/widgets/offline_banner.dart';
 import '../../features/cart/presentation/providers/cart_provider.dart';
@@ -13,9 +12,12 @@ class VillagerShell extends ConsumerWidget {
 
   int _indexForLocation(String location) {
     if (location.startsWith(AppRoutes.cart) ||
-        location.startsWith(AppRoutes.checkout)) return 1;
-    if (location.startsWith(AppRoutes.orders) || location.startsWith('/order/'))
+        location.startsWith(AppRoutes.checkout)) {
+      return 1;
+    }
+    if (location.startsWith(AppRoutes.orders) || location.startsWith('/order/')) {
       return 2;
+    }
     if (location.startsWith(AppRoutes.profile)) return 3;
     return 0;
   }

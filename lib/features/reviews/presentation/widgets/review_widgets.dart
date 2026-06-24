@@ -90,7 +90,7 @@ class ReviewCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(review.authorName,
-                  style: const TextStyle(fontWeight: FontWeight.w700)),
+                  style: const TextStyle(fontWeight: FontWeight.w700),),
               StarRating(
                 initialRating: review.rating,
                 size: 18,
@@ -114,7 +114,7 @@ class ReviewCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Icon(Icons.storefront_outlined,
-                      size: 16, color: AppColors.primary),
+                      size: 16, color: AppColors.primary,),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -184,7 +184,7 @@ class _SubmitReviewSheetState extends ConsumerState<SubmitReviewSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('قيّم تجربتك',
-              style: Theme.of(context).textTheme.headlineMedium),
+              style: Theme.of(context).textTheme.headlineMedium,),
           const SizedBox(height: 16),
           StarRating(
             initialRating: _rating,
@@ -209,7 +209,7 @@ class _SubmitReviewSheetState extends ConsumerState<SubmitReviewSheet> {
                       height: 20,
                       width: 20,
                       child: CircularProgressIndicator(
-                          color: Colors.white, strokeWidth: 2),
+                          color: Colors.white, strokeWidth: 2,),
                     )
                   : const Text('إرسال التقييم'),
             ),

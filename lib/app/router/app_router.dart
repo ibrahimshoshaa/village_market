@@ -43,20 +43,20 @@ GoRouter appRouter(Ref ref) {
       // --- AUTH ---
       GoRoute(
           path: AppRoutes.phoneEntry,
-          builder: (_, __) => const PhoneEntryScreen()),
+          builder: (_, __) => const PhoneEntryScreen(),),
       GoRoute(
           path: AppRoutes.otpVerification,
-          builder: (_, __) => const OtpVerificationScreen()),
+          builder: (_, __) => const OtpVerificationScreen(),),
       GoRoute(
           path: AppRoutes.roleSelection,
-          builder: (_, __) => const RoleSelectionScreen()),
+          builder: (_, __) => const RoleSelectionScreen(),),
 
       // --- VILLAGER ---
       ShellRoute(
         builder: (context, state, child) => VillagerShell(child: child),
         routes: [
           GoRoute(
-              path: AppRoutes.home, builder: (_, __) => const ShopListScreen()),
+              path: AppRoutes.home, builder: (_, __) => const ShopListScreen(),),
           GoRoute(
             path: AppRoutes.shopDetail,
             builder: (_, s) =>
@@ -64,7 +64,7 @@ GoRouter appRouter(Ref ref) {
           ),
           GoRoute(path: AppRoutes.cart, builder: (_, __) => const CartScreen()),
           GoRoute(
-              path: '/orders', builder: (_, __) => const OrderHistoryScreen()),
+              path: '/orders', builder: (_, __) => const OrderHistoryScreen(),),
           GoRoute(
             path: AppRoutes.orderTracking,
             redirect: (context, state) {
@@ -77,7 +77,7 @@ GoRouter appRouter(Ref ref) {
           ),
           GoRoute(
               path: AppRoutes.profile,
-              builder: (_, __) => const ProfileScreen()),
+              builder: (_, __) => const ProfileScreen(),),
         ],
       ),
 

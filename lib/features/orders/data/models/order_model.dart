@@ -14,7 +14,7 @@ class AppOrderModel {
               unitPrice: (i['unitPrice'] as num).toDouble(),
               quantity: (i['quantity'] as num).toInt(),
               lineTotal: (i['lineTotal'] as num).toDouble(),
-            ))
+            ),)
         .toList();
 
     final pricing = data['pricing'] as Map<String, dynamic>? ?? {};
@@ -42,7 +42,7 @@ class AppOrderModel {
       paymentMethod: (data['payment'] as Map?)
               ?.entries
               .firstWhere((e) => e.key == 'method',
-                  orElse: () => const MapEntry('method', 'cash'))
+                  orElse: () => const MapEntry('method', 'cash'),)
               .value ??
           'cash',
       customerNote: data['customerNote'] ?? '',

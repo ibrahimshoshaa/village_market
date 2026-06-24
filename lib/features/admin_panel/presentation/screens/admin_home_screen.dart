@@ -218,10 +218,10 @@ class _ShopApprovalTab extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.check_circle_outline,
                     size: 72,
-                    color: const Color(0xFF1B7A43),
+                    color: Color(0xFF1B7A43),
                   ),
                   const SizedBox(height: 16),
                   Text(

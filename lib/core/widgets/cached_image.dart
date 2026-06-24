@@ -42,6 +42,6 @@ class AppCachedImage extends StatelessWidget {
         height: height,
         color: AppColors.imagePlaceholderBg,
         child: const Icon(Icons.image_not_supported_outlined,
-            color: AppColors.imagePlaceholderIcon),
+            color: AppColors.imagePlaceholderIcon,),
       );
 }
