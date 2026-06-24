@@ -119,9 +119,17 @@ Future<AppStats> appStats(Ref ref) async {
 
   final results = await Future.wait([
     firestore.collection('users').count().get(),
-    firestore.collection('shops').where('isApproved', isEqualTo: true).count().get(),
+    firestore
+        .collection('shops')
+        .where('isApproved', isEqualTo: true)
+        .count()
+        .get(),
     firestore.collection('orders').count().get(),
-    firestore.collection('shops').where('isApproved', isEqualTo: false).count().get(),
+    firestore
+        .collection('shops')
+        .where('isApproved', isEqualTo: false)
+        .count()
+        .get(),
   ]);
 
   return AppStats(

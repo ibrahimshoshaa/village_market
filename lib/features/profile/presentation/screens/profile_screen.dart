@@ -211,8 +211,7 @@ class ProfileScreen extends ConsumerWidget {
               Navigator.pop(context);
               ref.read(profileControllerProvider.notifier).signOut();
             },
-            child: const Text('خروج',
-                style: TextStyle(color: AppColors.error)),
+            child: const Text('خروج', style: TextStyle(color: AppColors.error)),
           ),
         ],
       ),
@@ -310,7 +309,8 @@ class _ProfileTile extends StatelessWidget {
       child: ListTile(
         leading: Icon(icon, color: AppColors.primary),
         title: Text(label),
-        trailing: const Icon(Icons.chevron_left, color: AppColors.textSecondary),
+        trailing:
+            const Icon(Icons.chevron_left, color: AppColors.textSecondary),
         onTap: onTap,
       ),
     );

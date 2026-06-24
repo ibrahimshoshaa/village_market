@@ -39,7 +39,8 @@ class AppOrderModel {
       status: OrderStatus.fromString(data['status'] ?? 'pending'),
       deliveryType: delivery['type'] ?? 'delivery',
       dropoffAddressLabel: delivery['dropoffAddressLabel'] ?? '',
-      paymentMethod: (data['payment'] as Map?)?.entries
+      paymentMethod: (data['payment'] as Map?)
+              ?.entries
               .firstWhere((e) => e.key == 'method',
                   orElse: () => const MapEntry('method', 'cash'))
               .value ??

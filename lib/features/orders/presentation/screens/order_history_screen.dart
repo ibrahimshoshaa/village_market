@@ -21,9 +21,8 @@ class OrderHistoryScreen extends ConsumerWidget {
       body: ordersAsync.when(
         loading: () => const LoadingIndicator(),
         error: (e, _) => Center(child: Text('خطأ: $e')),
-        data: (orders) => orders.isEmpty
-            ? _buildEmpty(context)
-            : _buildList(context, orders),
+        data: (orders) =>
+            orders.isEmpty ? _buildEmpty(context) : _buildList(context, orders),
       ),
     );
   }
@@ -63,8 +62,7 @@ class _OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          context.push(AppRoutes.orderTrackingPath(order.orderId)),
+      onTap: () => context.push(AppRoutes.orderTrackingPath(order.orderId)),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -84,15 +82,15 @@ class _OrderCard extends StatelessWidget {
                         .textTheme
                         .bodyLarge
                         ?.copyWith(fontWeight: FontWeight.w700)),
-                _StatusChip(status: order.status.arabicLabel,
+                _StatusChip(
+                    status: order.status.arabicLabel,
                     color: order.status.color),
               ],
             ),
             const SizedBox(height: 8),
 
             // اسم المحل
-            Text(order.shopName,
-                style: Theme.of(context).textTheme.bodyMedium),
+            Text(order.shopName, style: Theme.of(context).textTheme.bodyMedium),
             const SizedBox(height: 4),
 
             // عدد المنتجات + الإجمالي
@@ -103,12 +101,8 @@ class _OrderCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium),
                 Text(
                   formatEGP(order.pricing.totalAmount),
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: AppColors.primary, fontWeight: FontWeight.w700),
                 ),
               ],
             ),

@@ -30,7 +30,8 @@ ChatThread _threadFromDoc(DocumentSnapshot doc) {
       senderId: lastMsg['senderId'] ?? '',
       type: MessageType.text,
       text: lastMsg['text'],
-      createdAt: (lastMsg['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt:
+          (lastMsg['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 
@@ -177,7 +178,8 @@ class ChatController extends _$ChatController {
     final threadSnap = await threadRef.get();
     final participants =
         List<String>.from(threadSnap.data()?['participantIds'] ?? []);
-    final otherUid = participants.firstWhere((id) => id != me.uid, orElse: () => '');
+    final otherUid =
+        participants.firstWhere((id) => id != me.uid, orElse: () => '');
 
     batch.update(threadRef, {
       'lastMessage': {

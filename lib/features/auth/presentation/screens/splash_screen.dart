@@ -18,7 +18,10 @@ class SplashScreen extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'سوق القرية',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge
+                  ?.copyWith(color: Colors.white),
             ),
             const SizedBox(height: 32),
             const CircularProgressIndicator(color: Colors.white),

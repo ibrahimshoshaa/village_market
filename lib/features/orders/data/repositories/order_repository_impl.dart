@@ -99,10 +99,8 @@ class OrderRepositoryImpl implements OrderRepository {
         },
       ]),
       'updatedAt': FieldValue.serverTimestamp(),
-      if (newStatus == 'delivered')
-        'deliveredAt': FieldValue.serverTimestamp(),
-      if (newStatus == 'accepted')
-        'acceptedAt': FieldValue.serverTimestamp(),
+      if (newStatus == 'delivered') 'deliveredAt': FieldValue.serverTimestamp(),
+      if (newStatus == 'accepted') 'acceptedAt': FieldValue.serverTimestamp(),
     });
   }
 }

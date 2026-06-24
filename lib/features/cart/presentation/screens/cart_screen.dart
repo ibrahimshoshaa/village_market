@@ -28,10 +28,11 @@ class CartScreen extends ConsumerWidget {
             ),
         ],
       ),
-      body: cart.isEmpty ? _buildEmpty(context) : _buildCartList(context, ref, cart.items),
-      bottomNavigationBar: cart.isNotEmpty
-          ? _buildCheckoutBar(context, ref)
-          : null,
+      body: cart.isEmpty
+          ? _buildEmpty(context)
+          : _buildCartList(context, ref, cart.items),
+      bottomNavigationBar:
+          cart.isNotEmpty ? _buildCheckoutBar(context, ref) : null,
     );
   }
 
@@ -90,8 +91,7 @@ class CartScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('المجموع',
-                    style: Theme.of(context).textTheme.bodyLarge),
+                Text('المجموع', style: Theme.of(context).textTheme.bodyLarge),
                 Text(
                   formatEGP(cart.subtotal),
                   style: Theme.of(context)

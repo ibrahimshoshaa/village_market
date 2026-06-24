@@ -342,8 +342,7 @@ class _ShopApprovalCard extends ConsumerWidget {
               Navigator.pop(context);
               controller.rejectShop(shop.shopId);
             },
-            child: const Text('رفض',
-                style: TextStyle(color: AppColors.error)),
+            child: const Text('رفض', style: TextStyle(color: AppColors.error)),
           ),
         ],
       ),
@@ -394,9 +393,8 @@ class _UserTile extends ConsumerWidget {
       title: Text(
         user.displayName,
         style: TextStyle(
-          color: user.isActive
-              ? AppColors.textPrimary
-              : AppColors.textSecondary,
+          color:
+              user.isActive ? AppColors.textPrimary : AppColors.textSecondary,
           decoration: user.isActive ? null : TextDecoration.lineThrough,
         ),
       ),

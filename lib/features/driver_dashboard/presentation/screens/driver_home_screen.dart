@@ -54,7 +54,9 @@ class _DriverHomeScreenState extends ConsumerState<DriverHomeScreen>
                 Text(
                   _isAvailable ? 'متاح' : 'غير متاح',
                   style: TextStyle(
-                    color: _isAvailable ? AppColors.statusDelivered : AppColors.textSecondary,
+                    color: _isAvailable
+                        ? AppColors.statusDelivered
+                        : AppColors.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -251,8 +253,7 @@ class _ActiveDeliveryCard extends ConsumerWidget {
         children: [
           // الحالة
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: order.status.color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(20),

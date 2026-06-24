@@ -7,7 +7,8 @@ import 'app_colors.dart';
 /// w400 weight; thin weights are hard to read for users with age-related
 /// vision changes, especially in Arabic script.
 abstract class AppTextStyles {
-  static const _fontFamily = 'Cairo'; // swap once the font asset is added to pubspec.yaml
+  static const _fontFamily =
+      'Cairo'; // swap once the font asset is added to pubspec.yaml
 
   static const headline1 = TextStyle(
     fontFamily: _fontFamily,

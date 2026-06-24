@@ -43,8 +43,7 @@ class _ChatThreadScreenState extends ConsumerState<ChatThreadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final messagesAsync =
-        ref.watch(threadMessagesProvider(widget.threadId));
+    final messagesAsync = ref.watch(threadMessagesProvider(widget.threadId));
     final myUid = ref.watch(authStateProvider).valueOrNull?.uid ?? '';
 
     return Scaffold(
@@ -105,7 +104,9 @@ class _MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: isMe ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+      alignment: isMe
+          ? AlignmentDirectional.centerEnd
+          : AlignmentDirectional.centerStart,
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -120,9 +121,7 @@ class _MessageBubble extends StatelessWidget {
             bottomStart: Radius.circular(isMe ? 16 : 4),
             bottomEnd: Radius.circular(isMe ? 4 : 16),
           ),
-          border: isMe
-              ? null
-              : Border.all(color: AppColors.divider),
+          border: isMe ? null : Border.all(color: AppColors.divider),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.06),

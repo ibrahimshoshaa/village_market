@@ -38,8 +38,7 @@ class _VendorDashboardBody extends ConsumerStatefulWidget {
       _VendorDashboardBodyState();
 }
 
-class _VendorDashboardBodyState
-    extends ConsumerState<_VendorDashboardBody>
+class _VendorDashboardBodyState extends ConsumerState<_VendorDashboardBody>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -57,8 +56,7 @@ class _VendorDashboardBodyState
 
   @override
   Widget build(BuildContext context) {
-    final pendingAsync =
-        ref.watch(pendingOrdersProvider(widget.shopId));
+    final pendingAsync = ref.watch(pendingOrdersProvider(widget.shopId));
     final pendingCount = pendingAsync.valueOrNull?.length ?? 0;
 
     return Scaffold(
@@ -130,8 +128,7 @@ class _PendingOrdersTab extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               itemCount: orders.length,
               separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (_, i) =>
-                  _PendingOrderCard(order: orders[i]),
+              itemBuilder: (_, i) => _PendingOrderCard(order: orders[i]),
             ),
     );
   }
@@ -207,10 +204,7 @@ class _PendingOrderCard extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.w700)),
               Text(
                 formatEGP(order.pricing.totalAmount),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: AppColors.primary,
                       fontWeight: FontWeight.w700,
                     ),
@@ -287,17 +281,14 @@ class _PendingOrderCard extends ConsumerWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              ref
-                  .read(vendorOrderControllerProvider.notifier)
-                  .rejectOrder(
+              ref.read(vendorOrderControllerProvider.notifier).rejectOrder(
                     order.orderId,
                     controller.text.trim().isEmpty
                         ? 'رفض التاجر الطلب'
                         : controller.text.trim(),
                   );
             },
-            child: const Text('رفض',
-                style: TextStyle(color: AppColors.error)),
+            child: const Text('رفض', style: TextStyle(color: AppColors.error)),
           ),
         ],
       ),
@@ -383,8 +374,7 @@ class _OrderSummaryTile extends StatelessWidget {
           ),
         ],
       ),
-      onTap: () =>
-          context.push(AppRoutes.orderTrackingPath(order.orderId)),
+      onTap: () => context.push(AppRoutes.orderTrackingPath(order.orderId)),
     );
   }
 }

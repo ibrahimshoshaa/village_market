@@ -14,8 +14,8 @@ class VillagerShell extends ConsumerWidget {
   int _indexForLocation(String location) {
     if (location.startsWith(AppRoutes.cart) ||
         location.startsWith(AppRoutes.checkout)) return 1;
-    if (location.startsWith(AppRoutes.orders) ||
-        location.startsWith('/order/')) return 2;
+    if (location.startsWith(AppRoutes.orders) || location.startsWith('/order/'))
+      return 2;
     if (location.startsWith(AppRoutes.profile)) return 3;
     return 0;
   }

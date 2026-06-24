@@ -256,11 +256,8 @@ class _TypeCard extends StatelessWidget {
             Text(label,
                 style: TextStyle(
                   fontSize: 13,
-                  fontWeight:
-                      selected ? FontWeight.w600 : FontWeight.w400,
-                  color: selected
-                      ? AppColors.primary
-                      : AppColors.textSecondary,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: selected ? AppColors.primary : AppColors.textSecondary,
                 ),
                 textAlign: TextAlign.center),
           ],
@@ -333,9 +330,8 @@ class _PaymentTile extends StatelessWidget {
           const SizedBox(width: 8),
           Text(label,
               style: TextStyle(
-                color: disabled
-                    ? AppColors.textSecondary
-                    : AppColors.textPrimary,
+                color:
+                    disabled ? AppColors.textSecondary : AppColors.textPrimary,
               )),
         ],
       ),

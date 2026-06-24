@@ -99,8 +99,7 @@ class ReviewCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(review.comment,
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(review.comment, style: Theme.of(context).textTheme.bodyMedium),
 
           // رد التاجر
           if (review.vendorReply != null) ...[
@@ -148,8 +147,7 @@ class SubmitReviewSheet extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<SubmitReviewSheet> createState() =>
-      _SubmitReviewSheetState();
+  ConsumerState<SubmitReviewSheet> createState() => _SubmitReviewSheetState();
 }
 
 class _SubmitReviewSheetState extends ConsumerState<SubmitReviewSheet> {
@@ -188,14 +186,12 @@ class _SubmitReviewSheetState extends ConsumerState<SubmitReviewSheet> {
           Text('قيّم تجربتك',
               style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: 16),
-
           StarRating(
             initialRating: _rating,
             size: 40,
             onRatingChanged: (r) => setState(() => _rating = r),
           ),
           const SizedBox(height: 16),
-
           TextField(
             controller: _commentController,
             decoration: const InputDecoration(
@@ -204,7 +200,6 @@ class _SubmitReviewSheetState extends ConsumerState<SubmitReviewSheet> {
             maxLines: 4,
           ),
           const SizedBox(height: 16),
-
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

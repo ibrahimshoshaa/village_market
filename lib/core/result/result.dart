@@ -19,9 +19,9 @@ sealed class Result<S, F> {
   }
 
   S? get valueOrNull => switch (this) {
-    Success<S, F>(value: final v) => v,
-    Failed<S, F>() => null,
-  };
+        Success<S, F>(value: final v) => v,
+        Failed<S, F>() => null,
+      };
 }
 
 final class Success<S, F> extends Result<S, F> {

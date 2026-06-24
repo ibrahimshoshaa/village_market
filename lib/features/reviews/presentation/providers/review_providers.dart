@@ -75,11 +75,8 @@ class ReviewController extends _$ReviewController {
     state = const AsyncLoading();
     try {
       final firestore = ref.read(firestoreProvider);
-      final reviewRef = firestore
-          .collection('shops')
-          .doc(shopId)
-          .collection('reviews')
-          .doc();
+      final reviewRef =
+          firestore.collection('shops').doc(shopId).collection('reviews').doc();
 
       await reviewRef.set({
         'reviewId': reviewRef.id,
