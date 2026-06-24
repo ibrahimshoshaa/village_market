@@ -13,3 +13,6 @@
 -keep class io.flutter.view.** { *; }
 -keep class io.flutter.** { *; }
 -keep class io.flutter.plugins.** { *; }
+# Play Core split install classes (not used, but referenced by Flutter embedding)
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.** { *; }
