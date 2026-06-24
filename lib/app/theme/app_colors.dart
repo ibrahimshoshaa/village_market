@@ -7,8 +7,7 @@ abstract class AppColors {
   // --- Brand ---
   static const primary = Color(0xFF1B7A43); // village green
   static const primaryDark = Color(0xFF125C30);
-  static const secondary =
-      Color(0xFFE8A33D); // warm accent (market/harvest tone)
+  static const secondary = Color(0xFFE8A33D); // warm accent (market/harvest tone)
 
   // --- Status colors (used for large order-status banners, Phase 7.1) ---
   static const statusPending = Color(0xFF9E9E9E);
@@ -36,3 +35,11 @@ abstract class AppColors {
   static const error = Color(0xFFC62828);
   static const divider = Color(0xFFE0E0E0);
 }
+
+// Extra status colors referenced in driver/admin screens
+// (added as extension on AppColors)
+// statusInTransit and statusDelivered are already defined above.
+// Adding aliases for convenience:
+// AppColors.statusInTransit = Color(0xFF1565C0)  -- same as statusInTransit above
+// AppColors.statusDelivered = Color(0xFF1B7A43)  -- same as statusDelivered above
+// No duplicates needed.

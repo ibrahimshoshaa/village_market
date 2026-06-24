@@ -16,8 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions
-        .currentPlatform, // swap to firebase_options_prod.dart once generated
+    options: DefaultFirebaseOptions.currentPlatform, // swap to firebase_options_prod.dart once generated
   );
 
   FirebaseFirestore.instance.settings = const Settings(

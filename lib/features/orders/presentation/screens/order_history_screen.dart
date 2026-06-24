@@ -21,8 +21,9 @@ class OrderHistoryScreen extends ConsumerWidget {
       body: ordersAsync.when(
         loading: () => const LoadingIndicator(),
         error: (e, _) => Center(child: Text('خطأ: $e')),
-        data: (orders) =>
-            orders.isEmpty ? _buildEmpty(context) : _buildList(context, orders),
+        data: (orders) => orders.isEmpty
+            ? _buildEmpty(context)
+            : _buildList(context, orders),
       ),
     );
   }
@@ -32,21 +33,14 @@ class OrderHistoryScreen extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
-            Icons.receipt_long_outlined,
-            size: 80,
-            color: AppColors.imagePlaceholderIcon,
-          ),
+          Icon(Icons.receipt_long_outlined,
+              size: 80, color: AppColors.imagePlaceholderIcon),
           const SizedBox(height: 16),
-          Text(
-            'مفيش طلبات لحد دلوقتي',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
+          Text('مفيش طلبات لحد دلوقتي',
+              style: Theme.of(context).textTheme.headlineMedium),
           const SizedBox(height: 8),
-          Text(
-            'اطلب من أقرب محل',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          Text('اطلب من أقرب محل',
+              style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );
@@ -69,7 +63,8 @@ class _OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push(AppRoutes.orderTrackingPath(order.orderId)),
+      onTap: () =>
+          context.push(AppRoutes.orderTrackingPath(order.orderId)),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -80,41 +75,40 @@ class _OrderCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header: رقم + حالة
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  order.orderNumber,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w700),
-                ),
-                _StatusChip(
-                  status: order.status.arabicLabel,
-                  color: order.status.color,
-                ),
+                Text(order.orderNumber,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.w700)),
+                _StatusChip(status: order.status.arabicLabel,
+                    color: order.status.color),
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              order.shopName,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+
+            // اسم المحل
+            Text(order.shopName,
+                style: Theme.of(context).textTheme.bodyMedium),
             const SizedBox(height: 4),
+
+            // عدد المنتجات + الإجمالي
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${order.items.length} منتج',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                Text('${order.items.length} منتج',
+                    style: Theme.of(context).textTheme.bodyMedium),
                 Text(
                   formatEGP(order.pricing.totalAmount),
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w700),
                 ),
               ],
             ),

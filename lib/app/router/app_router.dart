@@ -21,7 +21,6 @@ import '../../features/vendor_dashboard/presentation/screens/vendor_dashboard_sc
 import '../shells/driver_shell.dart';
 import '../shells/vendor_shell.dart';
 import '../shells/villager_shell.dart';
-import '../../features/orders/presentation/screens/checkout_screen.dart';
 import 'app_routes.dart';
 import 'route_guards.dart';
 
@@ -42,47 +41,30 @@ GoRouter appRouter(Ref ref) {
       GoRoute(path: AppRoutes.splash, builder: (_, __) => const SplashScreen()),
 
       // --- AUTH ---
-      GoRoute(
-          path: AppRoutes.phoneEntry,
-          builder: (_, __) => const PhoneEntryScreen(),),
-      GoRoute(
-          path: AppRoutes.otpVerification,
-          builder: (_, __) => const OtpVerificationScreen(),),
-      GoRoute(
-          path: AppRoutes.roleSelection,
-          builder: (_, __) => const RoleSelectionScreen(),),
+      GoRoute(path: AppRoutes.phoneEntry, builder: (_, __) => const PhoneEntryScreen()),
+      GoRoute(path: AppRoutes.otpVerification, builder: (_, __) => const OtpVerificationScreen()),
+      GoRoute(path: AppRoutes.roleSelection, builder: (_, __) => const RoleSelectionScreen()),
 
       // --- VILLAGER ---
       ShellRoute(
         builder: (context, state, child) => VillagerShell(child: child),
         routes: [
-          GoRoute(
-              path: AppRoutes.home, builder: (_, __) => const ShopListScreen(),),
+          GoRoute(path: AppRoutes.home, builder: (_, __) => const ShopListScreen()),
           GoRoute(
             path: AppRoutes.shopDetail,
-            builder: (_, s) =>
-                ShopDetailScreen(shopId: s.pathParameters['shopId']!),
-          ),
-          GoRoute(
-            path: AppRoutes.checkout,
-            builder: (_, __) => const CheckoutScreen(),
+            builder: (_, s) => ShopDetailScreen(shopId: s.pathParameters['shopId']!),
           ),
           GoRoute(path: AppRoutes.cart, builder: (_, __) => const CartScreen()),
-          GoRoute(
-              path: '/orders', builder: (_, __) => const OrderHistoryScreen(),),
+          GoRoute(path: '/orders', builder: (_, __) => const OrderHistoryScreen()),
           GoRoute(
             path: AppRoutes.orderTracking,
             redirect: (context, state) {
               final role = ref.read(currentUserRoleProvider);
-              return const RoleGuard([UserRole.villager])
-                  .check(role, AppRoutes.home);
+              return const RoleGuard([UserRole.villager]).check(role, AppRoutes.home);
             },
-            builder: (_, s) =>
-                OrderTrackingScreen(orderId: s.pathParameters['orderId']!),
+            builder: (_, s) => OrderTrackingScreen(orderId: s.pathParameters['orderId']!),
           ),
-          GoRoute(
-              path: AppRoutes.profile,
-              builder: (_, __) => const ProfileScreen(),),
+          GoRoute(path: AppRoutes.profile, builder: (_, __) => const ProfileScreen()),
         ],
       ),
 
@@ -94,8 +76,7 @@ GoRouter appRouter(Ref ref) {
             path: AppRoutes.vendorHome,
             redirect: (context, state) {
               final role = ref.read(currentUserRoleProvider);
-              return const RoleGuard([UserRole.vendor])
-                  .check(role, AppRoutes.home);
+              return const RoleGuard([UserRole.vendor]).check(role, AppRoutes.home);
             },
             builder: (_, __) => const VendorDashboardScreen(),
           ),
@@ -103,8 +84,7 @@ GoRouter appRouter(Ref ref) {
             path: AppRoutes.vendorProducts,
             redirect: (context, state) {
               final role = ref.read(currentUserRoleProvider);
-              return const RoleGuard([UserRole.vendor])
-                  .check(role, AppRoutes.home);
+              return const RoleGuard([UserRole.vendor]).check(role, AppRoutes.home);
             },
             builder: (_, __) => const ManageProductsScreen(),
           ),
@@ -119,8 +99,7 @@ GoRouter appRouter(Ref ref) {
             path: AppRoutes.driverHome,
             redirect: (context, state) {
               final role = ref.read(currentUserRoleProvider);
-              return const RoleGuard([UserRole.driver])
-                  .check(role, AppRoutes.home);
+              return const RoleGuard([UserRole.driver]).check(role, AppRoutes.home);
             },
             builder: (_, __) => const DriverHomeScreen(),
           ),

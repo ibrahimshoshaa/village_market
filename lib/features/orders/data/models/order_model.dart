@@ -7,16 +7,14 @@ class AppOrderModel {
     final data = doc.data() as Map<String, dynamic>;
 
     final itemsList = (data['items'] as List<dynamic>? ?? [])
-        .map(
-          (i) => OrderItem(
-            productId: i['productId'] ?? '',
-            productName: i['productName'] ?? '',
-            imageUrl: i['imageUrl'],
-            unitPrice: (i['unitPrice'] as num).toDouble(),
-            quantity: (i['quantity'] as num).toInt(),
-            lineTotal: (i['lineTotal'] as num).toDouble(),
-          ),
-        )
+        .map((i) => OrderItem(
+              productId: i['productId'] ?? '',
+              productName: i['productName'] ?? '',
+              imageUrl: i['imageUrl'],
+              unitPrice: (i['unitPrice'] as num).toDouble(),
+              quantity: (i['quantity'] as num).toInt(),
+              lineTotal: (i['lineTotal'] as num).toDouble(),
+            ))
         .toList();
 
     final pricing = data['pricing'] as Map<String, dynamic>? ?? {};
@@ -41,12 +39,9 @@ class AppOrderModel {
       status: OrderStatus.fromString(data['status'] ?? 'pending'),
       deliveryType: delivery['type'] ?? 'delivery',
       dropoffAddressLabel: delivery['dropoffAddressLabel'] ?? '',
-      paymentMethod: (data['payment'] as Map?)
-              ?.entries
-              .firstWhere(
-                (e) => e.key == 'method',
-                orElse: () => const MapEntry('method', 'cash'),
-              )
+      paymentMethod: (data['payment'] as Map?)?.entries
+              .firstWhere((e) => e.key == 'method',
+                  orElse: () => const MapEntry('method', 'cash'))
               .value ??
           'cash',
       customerNote: data['customerNote'] ?? '',

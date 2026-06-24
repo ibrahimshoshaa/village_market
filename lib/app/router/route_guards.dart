@@ -19,8 +19,7 @@ class AuthGuard {
     final authState = ref.read(authStateProvider);
     final isLoggedIn = authState.valueOrNull != null;
     final isAuthRoute = state.matchedLocation.startsWith('/auth');
-    final isOnboarding =
-        state.matchedLocation.startsWith(AppRoutes.roleSelection);
+    final isOnboarding = state.matchedLocation.startsWith(AppRoutes.roleSelection);
     final isSplash = state.matchedLocation == AppRoutes.splash;
 
     if (authState.isLoading) {

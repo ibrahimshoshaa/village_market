@@ -41,7 +41,7 @@ class OrderRepositoryImpl implements OrderRepository {
         .collection('orders')
         .doc(orderId)
         .snapshots()
-        .map((snap) => AppOrderModel.fromFirestore(snap));
+        .map(AppOrderModel.fromFirestore);
   }
 
   @override
@@ -52,9 +52,7 @@ class OrderRepositoryImpl implements OrderRepository {
         .orderBy('createdAt', descending: true)
         .limit(30)
         .snapshots()
-        .map(
-          (snap) => snap.docs.map(AppOrderModel.fromFirestore).toList(),
-        );
+        .map((snap) => snap.docs.map(AppOrderModel.fromFirestore).toList());
   }
 
   @override
@@ -71,9 +69,10 @@ class OrderRepositoryImpl implements OrderRepository {
       query = query.where('status', isEqualTo: statusFilter);
     }
 
-    return query.limit(50).snapshots().map(
-          (snap) => snap.docs.map(AppOrderModel.fromFirestore).toList(),
-        );
+    return query
+        .limit(50)
+        .snapshots()
+        .map((snap) => snap.docs.map(AppOrderModel.fromFirestore).toList());
   }
 
   @override
@@ -84,9 +83,7 @@ class OrderRepositoryImpl implements OrderRepository {
         .where('driverId', isNull: true)
         .orderBy('createdAt', descending: false)
         .snapshots()
-        .map(
-          (snap) => snap.docs.map(AppOrderModel.fromFirestore).toList(),
-        );
+        .map((snap) => snap.docs.map(AppOrderModel.fromFirestore).toList());
   }
 
   @override
@@ -102,8 +99,10 @@ class OrderRepositoryImpl implements OrderRepository {
         },
       ]),
       'updatedAt': FieldValue.serverTimestamp(),
-      if (newStatus == 'delivered') 'deliveredAt': FieldValue.serverTimestamp(),
-      if (newStatus == 'accepted') 'acceptedAt': FieldValue.serverTimestamp(),
+      if (newStatus == 'delivered')
+        'deliveredAt': FieldValue.serverTimestamp(),
+      if (newStatus == 'accepted')
+        'acceptedAt': FieldValue.serverTimestamp(),
     });
   }
 }

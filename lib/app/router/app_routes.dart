@@ -1,6 +1,4 @@
-/// Centralized route path constants. Never hardcode path strings inline
-/// elsewhere in the app — always reference these, so a path rename is a
-/// one-file change.
+/// Centralized route path constants.
 abstract class AppRoutes {
   static const splash = '/splash';
 
@@ -13,8 +11,12 @@ abstract class AppRoutes {
   static const home = '/home';
   static const shopDetail = '/shop/:shopId';
   static const cart = '/cart';
+  static const checkout = '/checkout';
   static const orderTracking = '/order/:orderId';
+  static const orders = '/orders';
   static const profile = '/profile';
+  static const chatList = '/chats';
+  static const chatThread = '/chat/:threadId';
 
   // --- Vendor ---
   static const vendorHome = '/vendor/home';
@@ -26,8 +28,8 @@ abstract class AppRoutes {
   // --- Admin ---
   static const adminHome = '/admin/home';
 
-  static const checkout = '/checkout';
-
+  // --- Helpers ---
   static String shopDetailPath(String shopId) => '/shop/$shopId';
   static String orderTrackingPath(String orderId) => '/order/$orderId';
+  static String chatThreadPath(String threadId) => '/chat/$threadId';
 }

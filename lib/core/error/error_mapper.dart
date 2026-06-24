@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'failures.dart';
 
-/// Translates Firebase-specific exceptions into domain-layer Failures.
 abstract class ErrorMapper {
   static Failure fromFirestoreException(FirebaseException e) {
     return switch (e.code) {
@@ -18,8 +18,7 @@ abstract class ErrorMapper {
     return switch (e.code) {
       'invalid-verification-code' => const AuthFailure('رمز التحقق غير صحيح'),
       'invalid-phone-number' => const AuthFailure('رقم الهاتف غير صحيح'),
-      'too-many-requests' =>
-        const AuthFailure('محاولات كثيرة جداً، حاول لاحقاً'),
+      'too-many-requests' => const AuthFailure('محاولات كثيرة جداً، حاول لاحقاً'),
       'network-request-failed' => const NetworkFailure(),
       _ => AuthFailure(e.message ?? 'حدث خطأ أثناء تسجيل الدخول'),
     };
@@ -28,8 +27,7 @@ abstract class ErrorMapper {
   static Failure fromFunctionsException(FirebaseFunctionsException e) {
     return switch (e.code) {
       'unauthenticated' => const AuthFailure('يجب تسجيل الدخول أولاً'),
-      'failed-precondition' =>
-        ValidationFailure(e.message ?? 'الكمية غير متوفرة'),
+      'failed-precondition' => ValidationFailure(e.message ?? 'الكمية غير متوفرة'),
       'invalid-argument' => ValidationFailure(e.message ?? 'بيانات غير صحيحة'),
       'unavailable' || 'deadline-exceeded' => const NetworkFailure(),
       _ => ServerFailure(e.message ?? 'حدث خطأ في الخادم'),

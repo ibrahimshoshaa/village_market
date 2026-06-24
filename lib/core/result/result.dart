@@ -1,9 +1,6 @@
 import 'package:meta/meta.dart';
-
 import '../error/failures.dart';
 
-/// Lightweight Result type for repository methods.
-/// Returns `Result<T, Failure>` instead of throwing exceptions.
 @immutable
 sealed class Result<S, F> {
   const Result();
@@ -22,9 +19,9 @@ sealed class Result<S, F> {
   }
 
   S? get valueOrNull => switch (this) {
-        Success<S, F>(value: final v) => v,
-        Failed<S, F>() => null,
-      };
+    Success<S, F>(value: final v) => v,
+    Failed<S, F>() => null,
+  };
 }
 
 final class Success<S, F> extends Result<S, F> {
