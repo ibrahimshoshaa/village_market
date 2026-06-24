@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive_ce_flutter/hive_ce_flutter.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'app/app.dart';
 // TODO: generate per-flavor options via:
 //   flutterfire configure --project=village-market-prod --out=lib/firebase_options_prod.dart
