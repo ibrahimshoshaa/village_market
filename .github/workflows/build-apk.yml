@@ -36,7 +36,7 @@ jobs:
       - name: Inject Android Keystore
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-        run: echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
+        run: echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > android/upload-keystore.jks
 
       - name: Inject key.properties
         env:
@@ -74,5 +74,5 @@ jobs:
         if: always()
         run: |
           rm -f android/app/google-services.json
-          rm -f android/app/upload-keystore.jks
+          rm -f android/upload-keystore.jks
           rm -f android/key.properties
