@@ -58,17 +58,15 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          const _StatsTab(),
-          const _ShopApprovalTab(),
-          const _UsersTab(),
+        children: const [
+          _StatsTab(),
+          _ShopApprovalTab(),
+          _UsersTab(),
         ],
       ),
     );
   }
 }
-
-// ===== Stats Tab =====
 
 class _StatsTab extends ConsumerWidget {
   const _StatsTab();
@@ -114,7 +112,7 @@ class _StatsTab extends ConsumerWidget {
                     label: 'إجمالي الطلبات',
                     value: '${stats.totalOrders}',
                     icon: Icons.receipt_long_outlined,
-                    color: AppColors.statusInTransit,
+                    color: const Color(0xFF1565C0),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -125,7 +123,7 @@ class _StatsTab extends ConsumerWidget {
                     icon: Icons.pending_outlined,
                     color: stats.pendingShops > 0
                         ? AppColors.error
-                        : AppColors.statusDelivered,
+                        : const Color(0xFF1B7A43),
                   ),
                 ),
               ],
@@ -137,7 +135,8 @@ class _StatsTab extends ConsumerWidget {
                 color: AppColors.primary.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.2)),
+                  color: AppColors.primary.withValues(alpha: 0.2),
+                ),
               ),
               child: Row(
                 children: [
@@ -145,7 +144,7 @@ class _StatsTab extends ConsumerWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'الإحصائيات بتتحدث كل مرة تفتح الشاشة. لمتابعة الأداء بالتفصيل، راجع Firebase Console.',
+                      'الإحصائيات بتتحدث كل مرة تفتح الشاشة.',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -204,8 +203,6 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-// ===== Shop Approval Tab =====
-
 class _ShopApprovalTab extends ConsumerWidget {
   const _ShopApprovalTab();
 
@@ -221,11 +218,16 @@ class _ShopApprovalTab extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.check_circle_outline,
-                      size: 72, color: AppColors.statusDelivered),
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 72,
+                    color: const Color(0xFF1B7A43),
+                  ),
                   const SizedBox(height: 16),
-                  Text('مفيش محلات بانتظار الموافقة',
-                      style: Theme.of(context).textTheme.bodyLarge),
+                  Text(
+                    'مفيش محلات بانتظار الموافقة',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ],
               ),
             )
@@ -258,7 +260,6 @@ class _ShopApprovalCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // اسم المحل + الكاتيجوري
           Row(
             children: [
               Expanded(
@@ -289,11 +290,11 @@ class _ShopApprovalCard extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 6),
-          Text('صاحب المحل: ${shop.ownerName}',
-              style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            'صاحب المحل: ${shop.ownerName}',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           const SizedBox(height: 12),
-
-          // أزرار الموافقة/الرفض
           Row(
             children: [
               Expanded(
@@ -325,8 +326,7 @@ class _ShopApprovalCard extends ConsumerWidget {
     );
   }
 
-  void _confirmReject(
-      BuildContext context, AdminController controller) {
+  void _confirmReject(BuildContext context, AdminController controller) {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -350,8 +350,6 @@ class _ShopApprovalCard extends ConsumerWidget {
     );
   }
 }
-
-// ===== Users Tab =====
 
 class _UsersTab extends ConsumerWidget {
   const _UsersTab();
@@ -393,14 +391,15 @@ class _UserTile extends ConsumerWidget {
           ),
         ),
       ),
-      title: Text(user.displayName,
-          style: TextStyle(
-            color: user.isActive
-                ? AppColors.textPrimary
-                : AppColors.textSecondary,
-            decoration:
-                user.isActive ? null : TextDecoration.lineThrough,
-          )),
+      title: Text(
+        user.displayName,
+        style: TextStyle(
+          color: user.isActive
+              ? AppColors.textPrimary
+              : AppColors.textSecondary,
+          decoration: user.isActive ? null : TextDecoration.lineThrough,
+        ),
+      ),
       subtitle: Text('${user.phoneNumber} · ${_roleLabel(user.role)}'),
       trailing: PopupMenuButton<String>(
         onSelected: (action) {
@@ -427,7 +426,7 @@ class _UserTile extends ConsumerWidget {
 
   Color _roleColor(String role) => switch (role) {
         'vendor' => AppColors.secondary,
-        'driver' => AppColors.statusInTransit,
+        'driver' => const Color(0xFF1565C0),
         'admin' => AppColors.error,
         _ => AppColors.primary,
       };
@@ -439,8 +438,6 @@ class _UserTile extends ConsumerWidget {
         _ => 'زبون',
       };
 }
-
-// ===== Badge Widget =====
 
 class _Badge extends StatelessWidget {
   final int count;
@@ -464,10 +461,4 @@ class _Badge extends StatelessWidget {
       ),
     );
   }
-}
-
-// Color constants used above
-extension _AppColorsExt on AppColors {
-  static const statusInTransit = Color(0xFF1565C0);
-  static const statusDelivered = Color(0xFF1B7A43);
 }

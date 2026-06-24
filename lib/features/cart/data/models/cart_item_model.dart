@@ -4,7 +4,7 @@ import '../../domain/entities/cart_item.dart';
 part 'cart_item_model.g.dart';
 
 @HiveType(typeId: 0)
-class CartItemModel {
+class CartItemModel extends HiveObject {
   @HiveField(0)
   final String productId;
 
