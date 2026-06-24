@@ -35,10 +35,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-    }
-
     defaultConfig {
         applicationId = "com.villagemarket.app" // TODO: replace with your real applicationId
         minSdk = 23 // Android 6.0+ — realistic floor for budget rural devices still receiving updates
