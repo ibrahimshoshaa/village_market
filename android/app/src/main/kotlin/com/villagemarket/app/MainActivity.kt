@@ -1,4 +1,4 @@
-package com.villagemarket.village_market
+package com.villagemarket.app
 
 import io.flutter.embedding.android.FlutterActivity
 

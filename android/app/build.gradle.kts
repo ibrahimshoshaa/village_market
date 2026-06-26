@@ -28,7 +28,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "com.villagemarket.app" // TODO: replace with your real applicationId
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -37,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId = "com.villagemarket.app" // TODO: replace with your real applicationId
-        minSdk = 23 // Android 6.0+ — realistic floor for budget rural devices still receiving updates
+        minSdk = flutter.minSdkVersion // Android 6.0+ — realistic floor for budget rural devices still receiving updates
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
