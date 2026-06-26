@@ -4,16 +4,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
-// import '../l10n/app_localizations.dart'; // uncomment once `flutter gen-l10n` has run
+import '../features/auth/presentation/providers/auth_providers.dart';
 
-/// Root widget. Forces RTL directionality regardless of device locale,
-/// since Arabic is the app's primary (and currently only fully-supported)
-/// language — see Phase 1.5 of the blueprint for the full localization strategy.
-class VillageMarketApp extends ConsumerWidget {
+class VillageMarketApp extends ConsumerStatefulWidget {
   const VillageMarketApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<VillageMarketApp> createState() => _VillageMarketAppState();
+}
+
+class _VillageMarketAppState extends ConsumerState<VillageMarketApp> {
+  @override
+  void initState() {
+    super.initState();
+    // استمع لـ Firebase Auth stream وحدّث الـ authStateProvider
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(authStateStreamProvider.future).then((_) {}).ignore();
+      // Subscribe للـ stream
+      ref.listen(authStateStreamProvider, (_, next) {
+        ref.read(authStateProvider.notifier).state = next;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
@@ -22,7 +37,6 @@ class VillageMarketApp extends ConsumerWidget {
       routerConfig: router,
       locale: const Locale('ar', 'EG'),
       localizationsDelegates: const [
-        // AppLocalizations.delegate, // uncomment once generated
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

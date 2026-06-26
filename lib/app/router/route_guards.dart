@@ -6,11 +6,6 @@ import '../../features/auth/domain/entities/user_role.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 import 'app_routes.dart';
 
-/// Note: this is UX-level routing protection only — it prevents an honest
-/// user from accidentally landing on a screen meant for another role. It is
-/// NOT the security boundary; that's Firestore Security Rules (Phase 6),
-/// which re-check the role server-side on every read/write. Never treat a
-/// successful client-side route guard as proof of authorization.
 class AuthGuard {
   final Ref ref;
   AuthGuard(this.ref);
@@ -23,22 +18,28 @@ class AuthGuard {
         state.matchedLocation.startsWith(AppRoutes.roleSelection);
     final isSplash = state.matchedLocation == AppRoutes.splash;
 
+    // لسه بيحمل
     if (authState.isLoading) {
       return isSplash ? null : AppRoutes.splash;
     }
 
+    // مش logged in
     if (!isLoggedIn && !isAuthRoute) {
       return AppRoutes.phoneEntry;
     }
 
+    // logged in وعلى شاشة auth
     if (isLoggedIn && (isAuthRoute || isSplash)) {
       final user = authState.valueOrNull!;
       if (user.role == UserRole.unknown) return AppRoutes.roleSelection;
       return _homeForRole(user.role);
     }
 
+    // logged in بس مش اختار role
     final user = authState.valueOrNull;
-    if (isLoggedIn && user!.role == UserRole.unknown && !isOnboarding) {
+    if (isLoggedIn &&
+        user?.role == UserRole.unknown &&
+        !isOnboarding) {
       return AppRoutes.roleSelection;
     }
 
@@ -50,7 +51,7 @@ class AuthGuard {
         UserRole.vendor => AppRoutes.vendorHome,
         UserRole.driver => AppRoutes.driverHome,
         UserRole.admin => AppRoutes.adminHome,
-        UserRole.unknown => AppRoutes.roleSelection,
+        _ => AppRoutes.roleSelection,
       };
 }
 
@@ -64,9 +65,6 @@ class RoleGuard {
   }
 }
 
-/// Bridges a Riverpod Stream/State provider to GoRouter's `refreshListenable`
-/// so navigation re-evaluates `redirect` whenever auth state changes
-/// (sign-in, sign-out, role update) — not just on explicit navigation calls.
 class GoRouterRefreshStream extends ChangeNotifier {
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();

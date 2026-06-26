@@ -10,7 +10,10 @@ import '../../features/auth/presentation/screens/role_selection_screen.dart';
 import '../../features/auth/presentation/screens/splash_screen.dart';
 import '../../features/admin_panel/presentation/screens/admin_home_screen.dart';
 import '../../features/cart/presentation/screens/cart_screen.dart';
+import '../../features/chat/presentation/screens/chat_list_screen.dart';
+import '../../features/chat/presentation/screens/chat_thread_screen.dart';
 import '../../features/driver_dashboard/presentation/screens/driver_home_screen.dart';
+import '../../features/orders/presentation/screens/checkout_screen.dart';
 import '../../features/orders/presentation/screens/order_history_screen.dart';
 import '../../features/orders/presentation/screens/order_tracking_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
@@ -26,9 +29,6 @@ import 'route_guards.dart';
 
 part 'app_router.g.dart';
 
-/// See Phase 1.4 of the blueprint for the full role-based routing
-/// rationale. Remember: this guards UX navigation only — Firestore
-/// Security Rules (Phase 6) are the actual authorization boundary.
 @riverpod
 GoRouter appRouter(Ref ref) {
   final authGuard = AuthGuard(ref);
@@ -38,33 +38,53 @@ GoRouter appRouter(Ref ref) {
     debugLogDiagnostics: false,
     redirect: (context, state) => authGuard.call(context, state),
     routes: [
-      GoRoute(path: AppRoutes.splash, builder: (_, __) => const SplashScreen()),
+      GoRoute(
+        path: AppRoutes.splash,
+        builder: (_, __) => const SplashScreen(),
+      ),
 
       // --- AUTH ---
       GoRoute(
-          path: AppRoutes.phoneEntry,
-          builder: (_, __) => const PhoneEntryScreen(),),
+        path: AppRoutes.phoneEntry,
+        builder: (_, __) => const PhoneEntryScreen(),
+      ),
       GoRoute(
-          path: AppRoutes.otpVerification,
-          builder: (_, __) => const OtpVerificationScreen(),),
+        path: AppRoutes.otpVerification,
+        builder: (_, state) => OtpVerificationScreen(
+          phoneNumber: state.extra as String? ?? '',
+        ),
+      ),
       GoRoute(
-          path: AppRoutes.roleSelection,
-          builder: (_, __) => const RoleSelectionScreen(),),
+        path: AppRoutes.roleSelection,
+        builder: (_, __) => const RoleSelectionScreen(),
+      ),
 
       // --- VILLAGER ---
       ShellRoute(
         builder: (context, state, child) => VillagerShell(child: child),
         routes: [
           GoRoute(
-              path: AppRoutes.home, builder: (_, __) => const ShopListScreen(),),
+            path: AppRoutes.home,
+            builder: (_, __) => const ShopListScreen(),
+          ),
           GoRoute(
             path: AppRoutes.shopDetail,
-            builder: (_, s) =>
-                ShopDetailScreen(shopId: s.pathParameters['shopId']!),
+            builder: (_, s) => ShopDetailScreen(
+              shopId: s.pathParameters['shopId']!,
+            ),
           ),
-          GoRoute(path: AppRoutes.cart, builder: (_, __) => const CartScreen()),
           GoRoute(
-              path: '/orders', builder: (_, __) => const OrderHistoryScreen(),),
+            path: AppRoutes.cart,
+            builder: (_, __) => const CartScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.checkout,
+            builder: (_, __) => const CheckoutScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.orders,
+            builder: (_, __) => const OrderHistoryScreen(),
+          ),
           GoRoute(
             path: AppRoutes.orderTracking,
             redirect: (context, state) {
@@ -72,16 +92,29 @@ GoRouter appRouter(Ref ref) {
               return const RoleGuard([UserRole.villager])
                   .check(role, AppRoutes.home);
             },
-            builder: (_, s) =>
-                OrderTrackingScreen(orderId: s.pathParameters['orderId']!),
+            builder: (_, s) => OrderTrackingScreen(
+              orderId: s.pathParameters['orderId']!,
+            ),
           ),
           GoRoute(
-              path: AppRoutes.profile,
-              builder: (_, __) => const ProfileScreen(),),
+            path: AppRoutes.profile,
+            builder: (_, __) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.chatList,
+            builder: (_, __) => const ChatListScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.chatThread,
+            builder: (_, s) => ChatThreadScreen(
+              threadId: s.pathParameters['threadId']!,
+              otherUserName: s.extra as String? ?? 'محادثة',
+            ),
+          ),
         ],
       ),
 
-      // --- VENDOR (gated) ---
+      // --- VENDOR ---
       ShellRoute(
         builder: (context, state, child) => VendorShell(child: child),
         routes: [
@@ -106,7 +139,7 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // --- DRIVER (gated) ---
+      // --- DRIVER ---
       ShellRoute(
         builder: (context, state, child) => DriverShell(child: child),
         routes: [
@@ -122,12 +155,13 @@ GoRouter appRouter(Ref ref) {
         ],
       ),
 
-      // --- ADMIN (gated, strictest) ---
+      // --- ADMIN ---
       GoRoute(
         path: AppRoutes.adminHome,
         redirect: (context, state) {
           final role = ref.read(currentUserRoleProvider);
-          return const RoleGuard([UserRole.admin]).check(role, AppRoutes.home);
+          return const RoleGuard([UserRole.admin])
+              .check(role, AppRoutes.home);
         },
         builder: (_, __) => const AdminHomeScreen(),
       ),

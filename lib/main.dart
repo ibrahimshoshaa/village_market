@@ -15,14 +15,18 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // Offline-first — Phase 5.1
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
 
+  // Hive setup
   await Hive.initFlutter();
   Hive.registerAdapters();
   await Hive.openBox('cart');
 
-  runApp(const ProviderScope(child: VillageMarketApp()));
+  runApp(
+    const ProviderScope(child: VillageMarketApp()),
+  );
 }
