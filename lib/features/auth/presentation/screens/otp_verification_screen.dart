@@ -205,7 +205,11 @@ class _OtpVerificationScreenState
   String _mapError(String code) => switch (code) {
         'invalid-verification-code' => 'رمز التحقق غير صحيح',
         'session-expired' => 'انتهت صلاحية الرمز، أعد الإرسال',
-        _ => 'حدث خطأ، حاول مرة أخرى',
+        'too-many-requests' => 'تم تجاوز الحد المسموح، انتظر قليلاً',
+'invalid-phone-number' => 'رقم الهاتف غير صحيح',
+'network-request-failed' => 'تحقق من الاتصال بالإنترنت',
+'quota-exceeded' => 'تم تجاوز حصة الرسائل في Firebase',
+_ => 'خطأ: $code',
       };
 
   void _showError(String message) {
