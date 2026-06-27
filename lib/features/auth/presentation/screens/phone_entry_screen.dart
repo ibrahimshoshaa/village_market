@@ -140,19 +140,19 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen> {
       _showError('من فضلك أدخل رقم موبايلك');
       return;
     }
-    if (phone.length < 10) {
+
+    // Remove any leading zeros or spaces then validate length
+    final digitsOnly = phone.replaceAll(RegExp(r'\D'), '');
+    if (digitsOnly.length < 10 || digitsOnly.length > 11) {
       _showError('رقم الموبايل غير صحيح');
       return;
     }
 
-    // Format to E.164
-    String fullPhone = phone;
-    if (!phone.startsWith('+')) {
-      fullPhone = '+2$phone';
-      if (phone.startsWith('0')) {
-        fullPhone = '+2$phone';
-      }
-    }
+    // Format to E.164: +20 + 10 digits (remove leading 0 if present)
+    final normalized = digitsOnly.startsWith('0')
+        ? digitsOnly.substring(1) // "01025269977" → "1025269977"
+        : digitsOnly;
+    final fullPhone = '+20$normalized'; // → "+201025269977"
 
     setState(() => _isLoading = true);
 
@@ -167,6 +167,8 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen> {
       },
       onError: (error) {
         setState(() => _isLoading = false);
+        // نعرض الكود الفعلي في الـ debug — غيّره لـ _mapAuthError في الـ production
+        debugPrint('🔴 Firebase Auth Error Code: $error');
         _showError(_mapAuthError(error));
       },
     );
@@ -174,9 +176,18 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen> {
 
   String _mapAuthError(String code) => switch (code) {
         'invalid-phone-number' => 'رقم الموبايل غير صحيح',
-        'too-many-requests' => 'محاولات كثيرة جداً، حاول لاحقاً',
+        'too-many-requests' => 'محاولات كثيرة جداً، حاول بعد شوية',
         'network-request-failed' => 'تأكد من اتصالك بالإنترنت',
-        _ => 'حدث خطأ، حاول مرة أخرى',
+        // أكواد شائعة تانية من Firebase
+        'missing-phone-number' => 'من فضلك أدخل رقم موبايلك',
+        'quota-exceeded' => 'تم تجاوز الحد المسموح، حاول غداً',
+        'user-disabled' => 'هذا الحساب معطّل',
+        'operation-not-allowed' => 'تسجيل الدخول بالموبايل غير مفعّل حالياً',
+        'app-not-authorized' => 'التطبيق غير مصرح له — تأكد من SHA-1',
+        'invalid-app-credential' => 'مشكلة في إعدادات التطبيق (App Check / SHA-1)',
+        'missing-client-identifier' => 'مشكلة في SHA-1 أو reCAPTCHA',
+        // عرض الكود الخام لأي حاجة تانية عشان نعرف المشكلة
+        _ => 'خطأ: $code',
       };
 
   void _showError(String message) {
@@ -184,6 +195,7 @@ class _PhoneEntryScreenState extends ConsumerState<PhoneEntryScreen> {
       SnackBar(
         content: Text(message),
         backgroundColor: AppColors.error,
+        duration: const Duration(seconds: 6),
       ),
     );
   }
